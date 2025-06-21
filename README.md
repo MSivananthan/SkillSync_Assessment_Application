@@ -96,7 +96,7 @@ Want to contribute?
 
 ## 📧 Contact
 
-**Developer:** M. Sivananthan
+**Developer:** M. Sivananthan<br>
 📬 Email: [sivananthan46m@gmail.com](mailto:sivananthan.cse@gmail.com)<br>
 🌐 Portfolio: [portfolio-link](https://msivananthan.github.io/Sivananthan.github.io/)<br>
 🔗 LinkedIn: [Siva/linkedin.com](https://www.linkedin.com/in/sivananthanm/)<br>
