@@ -1,5 +1,5 @@
 
-# SkillSync – Smart Assessment Platform 🧠📊
+# SkillSync – Smart Assessment Platform 
 
 SkillSync is an innovative web-based assessment platform tailored for educational institutions, training centers, and companies to streamline the evaluation process. Designed with an intuitive UI and responsive design, SkillSync enables efficient assessment creation, user management, and insightful reporting.
 
