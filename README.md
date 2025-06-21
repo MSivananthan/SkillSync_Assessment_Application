@@ -76,8 +76,9 @@ Or use Live Server on VS Code for live previewing.
 
 ## 🌍 Live Demo
 
-**Coming Soon...**
-Stay tuned for a hosted demo on GitHub Pages.
+**Exited Demo...**
+Hosted demo on GitHub Pages.
+🔗 Live Demo: [Demo](https://msivananthan.github.io/SkillSync_Assessment_Application/)
 
 ---
 
@@ -97,8 +98,9 @@ Want to contribute?
 
 **Developer:** M. Sivananthan
 📬 Email: [sivananthan46m@gmail.com](mailto:sivananthan.cse@gmail.com)
-🌐 Portfolio: [portfolio-link]([https://www.linkedin.com/in/sivananthanm/](https://msivananthan.github.io/Sivananthan.github.io/))
-🔗 LinkedIn: [Siva/linkedin.com]([https://linkedin.com/in/yourprofile](https://www.linkedin.com/in/sivananthanm/))
+🌐 Portfolio: [portfolio-link](https://msivananthan.github.io/Sivananthan.github.io/)
+🔗 LinkedIn: [Siva/linkedin.com](https://www.linkedin.com/in/sivananthanm/)
+🔗 GitHub: [MSivananthan](https://github.com/MSivananthan)
 
 ---
 
