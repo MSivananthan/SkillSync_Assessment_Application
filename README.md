@@ -20,7 +20,7 @@ SkillSync is an innovative web-based assessment platform tailored for educationa
 
 ### Homepage
 
-![Homepage Screenshot](assets/homepage.png)
+![Homepage Screenshot](Screenshot 2025-06-21 171705.png)
 
 > *SkillSync landing page with animated entry and responsive layout*
 
@@ -35,6 +35,7 @@ SkillSync is an innovative web-based assessment platform tailored for educationa
 | Recruiter | Conduct skill-based evaluations            |
 
 ---
+![Homepage Screenshot](Screenshot 2025-06-21 171748.png)
 
 ## 🧭 Navigation Map
 
@@ -68,11 +69,12 @@ Or use Live Server on VS Code for live previewing.
 * **Animate.css** for smooth animations
 
 ---
+![Homepage Screenshot](Screenshot 2025-06-21 171843.png)
 
 ## 🌍 Live Demo
 
 **Coming Soon...**
-Stay tuned for a hosted demo on GitHub Pages or Firebase.
+Stay tuned for a hosted demo on GitHub Pages.
 
 ---
 
