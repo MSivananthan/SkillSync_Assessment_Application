@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Application Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
+        :root {
+            --body-bg-color: #f3f4f6;
+            --text-color: #374151;
+            --content-bg-color: rgba(255, 255, 255, 0.9);
+            --heading-color: #1a202c;
+            --paragraph-color: #4b5563;
+            --button-primary-bg: #2575fc;
+            --button-primary-hover-bg: #1a60e0;
+            --button-secondary-bg: #6a11cb;
+            --button-secondary-hover-bg: #5a0ebf;
+            --typing-border-color: rgb(10, 112, 149);
+            --typing-blink-color: rgb(6, 74, 84);
+            --assessment-platform-color: rgb(129, 11, 86);
+            --theme-icon-color: #374151;
+        }
+
+        .dark-theme {
+            --body-bg-color: #1a202c;
+            --text-color: #e2e8f0;
+            --content-bg-color: rgba(45, 55, 72, 0.9);
+            --heading-color: #e2e8f0;
+            --paragraph-color: #a0aec0;
+            --button-primary-bg: #3f51b5;
+            --button-primary-hover-bg: #303f9f;
+            --button-secondary-bg: #d81b60;
+            --button-secondary-hover-bg: #c2185b;
+            --typing-border-color: rgb(160, 200, 250);
+            --typing-blink-color: rgb(100, 150, 200);
+            --assessment-platform-color: rgb(255, 150, 200);
+            --theme-icon-color: #fcd34d; /* Yellow for moon/sun in dark mode */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--body-bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 5rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .content-container {
+            background-color: var(--content-bg-color);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        @media (min-width: 768px) {
+            .content-container {
+                flex-direction: row;
+                text-align: left;
+            }
+            .text-content {
+                flex: 1;
+                padding-right: 2rem;
+            }
+            .image-wrapper {
+                flex-shrink: 0;
+                width: 50%;
+                max-width: 450px;
+            }
+        }
+        .content-container h1 {
+            color: var(--heading-color);
+            transition: color 0.3s ease;
+        }
+        .content-container p {
+            color: var(--paragraph-color);
+            transition: color 0.3s ease;
+        }
+
+        @keyframes bounce-scale {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .animated-image {
+            animation: bounce-scale 3s infinite ease-in-out;
+        }
+
+        .top-right-buttons {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        #assessment-platform {
+            font-family: 'Times New Roman', monospace;
+            overflow: hidden;
+            border-right: .15em solid var(--typing-border-color);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .10em;
+            animation:
+                typing 3.5s steps(20, end),
+                blink-caret .75s step-end infinite;
+            width: 0;
+            display: inline-block;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--typing-blink-color) }
+        }
+
+        #assessment-platform {
+            color: var(--assessment-platform-color);
+            transition: color 0.3s ease;
+        }
+
+        .theme-toggle-icon {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 20;
+            color: var(--theme-icon-color);
+            transition: color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <i id="themeToggle" class="fas fa-sun theme-toggle-icon"></i>
+
+    <div class="top-right-buttons" style="margin-right: 100px;">
+        <a href="skillsync.html"><button class="text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300" style="background: linear-gradient(45deg, var(--button-secondary-bg), var(--button-primary-bg));">
+            Login
+        </button></a>
+        <a href="skillsync.html"><button class="text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-300" style="background: linear-gradient(45deg, var(--button-secondary-bg), var(--button-primary-bg));">
+            Sign Up
+        </button></a>
+        
+    </div>
+
+    <div class="content-container">
+        <div class="text-content mb-8 md:mb-0">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">
+                Welcome <br> <span id="assessment-platform">Skillsync <br>
+                    Assessment</span>
+            </h1>
+
+            <p class="text-base sm:text-lg lg:text-xl mb-8 max-w-2xl" style="font-family:Times New Roman, Times, serif;padding: 5px;">
+                Our platform provides a comprehensive and easy-to-use solution for conducting various assessments,
+                tracking progress, and generating insightful reports. <br> Get started today to streamline your evaluation process.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 mb-10 justify-center md:justify-start">
+                <a href="skillsync.html"><button class="text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300" style="background: linear-gradient(45deg, var(--button-secondary-bg), var(--button-primary-bg));">
+                    Start a New Assessment
+                </button></a>
+            </div>
+        </div>
+
+        <div class="image-wrapper flex justify-center items-center">
+            <img src="Analysis-amico.png" alt="Assessment Analysis" class="w-full h-auto rounded-lg shadow-md animated-image">
+        </div>
+    </div>
+
+    <footer class="mt-12 text-sm text-gray-500 w-full text-center">
+        &copy; 2025 Assessment Platform. All rights reserved.
+    </footer>
+
+    <script>
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-theme');
+            const themeIcon = document.getElementById('themeToggle');
+            if (document.body.classList.contains('dark-theme')) {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('themeToggle');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        });
+    </script>
+</body>
+</html>

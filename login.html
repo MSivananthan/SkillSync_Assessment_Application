@@ -1,0 +1,4202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSync - Login & Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-blue: #007bff;
+            --primary-blue-dark: #0056b3;
+            --secondary-purple: #7a60ff;
+            --accent-orange: #ffa000;
+            --accent-green: #1e7e34;
+            --light-blue-bg: #e6f0ff;
+            --light-gray-bg: #f4f6f8;
+            --white-bg: #fff;
+            --text-dark: #333;
+            --text-medium: #555;
+            --text-light: #666;
+            --shadow-light: rgba(0, 0, 0, 0.05);
+            --shadow-medium: rgba(0, 0, 0, 0.08);
+            --shadow-strong: rgba(0, 0, 0, 0.15);
+            --border-light: #eee;
+            --quiz-body-bg: #f8f9fa;
+            --quiz-text-color: #333333;
+            --quiz-header-footer-bg: #ffffff;
+            --quiz-box-shadow-light: rgba(0, 0, 0, 0.1);
+            --quiz-box-shadow-medium: rgba(0, 0, 0, 0.15);
+            --quiz-bg: #ffffff;
+            --quiz-sidebar-bg: #ffffff;
+            --quiz-problem-option-bg: #f9f9f9;
+            --quiz-border-color-light: #eee;
+            --quiz-border-color-medium: #e0e6ed;
+            --quiz-highlight-blue: #007bff;
+            --quiz-highlight-blue-dark: #0056b3;
+            --quiz-green: #28a745;
+            --quiz-yellow: #ffc107;
+            --quiz-red: #dc3545;
+            --quiz-gray-light: #f0f0f0;
+            --quiz-gray-medium: #6c757d;
+            --quiz-dark-text: #2c3e50;
+            --quiz-light-blue-hover: #ebf2fa;
+            --quiz-message-overlay-bg: rgba(0, 0, 0, 0.7);
+            --quiz-message-box-bg: #ffffff;
+            --quiz-homepage-bg-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            --quiz-homepage-text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1);
+        }
+        .dark-theme {
+            --quiz-body-bg: #2c3e50;
+            --quiz-text-color: #ecf0f1;
+            --quiz-header-footer-bg: #34495e;
+            --quiz-box-shadow-light: rgba(0, 0, 0, 0.3);
+            --quiz-box-shadow-medium: rgba(0, 0, 0, 0.4);
+            --quiz-bg: #3f5b78;
+            --quiz-sidebar-bg: #3f5b78;
+            --quiz-problem-option-bg: #4a6c8c;
+            --quiz-border-color-light: #4a6c8c;
+            --quiz-border-color-medium: #5a7ea0;
+            --quiz-highlight-blue: #66ccff;
+            --quiz-highlight-blue-dark: #3399cc;
+            --quiz-green: #4caf50;
+            --quiz-red: #ff5252;
+            --quiz-gray-light: #708d9b;
+            --quiz-gray-medium: #95a5a6;
+            --quiz-dark-text: #ecf0f1;
+            --quiz-light-blue-hover: #5a7ea0;
+            --quiz-message-overlay-bg: rgba(0, 0, 0, 0.8);
+            --quiz-message-box-bg: #4a6c8c;
+            --quiz-homepage-bg-gradient: linear-gradient(135deg, #1a2a3a 0%, #3a4a5a 100%);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray-bg);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: stretch;
+            position: relative;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: var(--white-bg);
+            padding: 20px 0;
+            box-shadow: 2px 0 15px var(--shadow-medium);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 0 20px 20px 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            flex-shrink: 0;
+            position: relative;
+            top: 0;
+            max-height: 100vh;
+            z-index: 999;
+            transition: transform 0.3s ease-in-out;
+        }
+        .sidebar-header {
+            padding: 0 20px 25px 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .sidebar-header img {
+            max-width: 130px;
+            filter: drop-shadow(0 3px 8px var(--shadow-light));
+        }
+        .sidebar-nav {
+            flex-grow: 1;
+            padding-right: 5px;
+        }
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar-nav ul li {
+            margin-bottom: 8px;
+        }
+        .sidebar-nav ul li a {
+            display: flex;
+            align-items: center;
+            padding: 14px 25px;
+            color: var(--text-medium);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 0 30px 30px 0;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+         .sidebar-nav ul li a i {
+            margin-right: 18px;
+            font-size: 19px;
+            color: inherit;
+        }
+
+        .sidebar-nav ul li a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background-color: transparent;
+            border-radius: 0 3px 3px 0;
+            transition: background-color 0.3s ease;
+        }
+        .sidebar-nav ul li a.active,
+        .sidebar-nav ul li a:hover {
+            background-color: var(--light-blue-bg);
+            color: var(--primary-blue);
+            transform: translateX(8px);
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.1);
+        }
+        .sidebar-nav ul li a.active::before {
+            background-color: var(--primary-blue);
+        }
+        .sidebar-footer {
+            padding: 25px 20px 20px 20px;
+            border-top: 1px solid var(--border-light);
+            margin-top: 15px;
+            flex-shrink: 0;
+        }
+        .sidebar-footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar-footer ul li {
+            margin-bottom: 8px;
+        }
+        .sidebar-footer ul li a {
+            display: block;
+            text-align: center;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 3px 8px var(--shadow-light);
+        }
+        .sidebar-footer ul li a.support-btn {
+            background-color: #f0f0f0;
+            color: var(--text-medium);
+        }
+        .sidebar-footer ul li a.support-btn:hover {
+            background-color: #e0e0e0;
+            color: var(--text-dark);
+            transform: translateY(-2px);
+        }
+        .sidebar-footer ul li a.logout-btn {
+            background-color: #dc3545;
+            color: var(--white-bg);
+            box-shadow: 0 3px 8px rgba(220, 53, 69, 0.3);
+        }
+        .sidebar-footer ul li a.logout-btn:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+        .sidebar-footer ul li a i {
+            margin-right: 10px;
+        }
+        .pro-plan-card {
+            background: linear-gradient(to bottom right, #4a90e2, #7a60ff);
+            color: var(--white-bg);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.4);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .pro-plan-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: rotate(45deg);
+        }
+        .pro-plan-card::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            transform: rotate(-30deg);
+        }
+        .pro-plan-card h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: 800;
+            font-size: 1.25em;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .pro-plan-card p {
+            font-size: 0.95em;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        .pro-plan-card button {
+            background-color: var(--white-bg);
+            color: #4a90e2;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            letter-spacing: 0.5px;
+        }
+        .pro-plan-card button:hover {
+            background-color: #e0e0e0;
+            color: #3366cc;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--white-bg);
+            padding: 25px 35px;
+            margin-bottom: 35px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px var(--shadow-medium);
+            flex-shrink: 0;
+        }
+        .header .left-section {
+            display: flex;
+            align-items: center;
+        }
+        .header .left-section h2 {
+            margin: 0;
+            font-size: 1.8em;
+            color: var(--text-dark);
+            font-weight: 800;
+        }
+        .menu-icon {
+            display: none;
+            font-size: 1.8em;
+            color: var(--primary-blue);
+            cursor: pointer;
+            margin-right: 20px;
+            order: -1;
+        }
+        .header .right-section {
+            display: flex;
+            align-items: center;
+        }
+        .header .right-section .add-skill-button {
+            background: linear-gradient(to right, #007bff, #56c2e6);
+            color: var(--white-bg);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-right: 30px;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+            letter-spacing: 0.5px;
+        }
+        .header .right-section .add-skill-button:hover {
+            background: linear-gradient(to right, #0056b3, #4ac3e6);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
+        }
+        .header .right-section .profile {
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 30px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.08);
+        }
+        .header .right-section .profile img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-right: 12px;
+            object-fit: cover;
+            border: 3px solid var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+        }
+        .header .right-section .profile span {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 1.05em;
+        }
+        .section-title {
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            color: var(--text-dark);
+            font-weight: 800;
+            border-left: 6px solid var(--primary-blue);
+            padding-left: 15px;
+            line-height: 1.2;
+        }
+        .quizzes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        .quiz-card {
+            background-color: var(--white-bg);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 12px 30px var(--shadow-medium);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 10px solid transparent;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .quiz-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 40px var(--shadow-strong);
+        }
+        .quiz-card.intermediate {
+            border-image: linear-gradient(to right, #ffc107, var(--accent-orange)) 1;
+        }
+        .quiz-card.responsive {
+            border-image: linear-gradient(to right, #007bff, #0056b3) 1;
+        }
+        .quiz-card.ui-figma {
+            border-image: linear-gradient(to right, #28a745, var(--accent-green)) 1;
+        }
+        .quiz-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .quiz-card-title {
+            font-weight: 800;
+            color: var(--text-dark);
+            font-size: 1.25em;
+        }
+        .quiz-level {
+            background-color: #e0f2f7;
+            color: var(--primary-blue);
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .quiz-score {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 30px;
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: 900;
+            color: var(--white-bg);
+            background: linear-gradient(to bottom right, #28a745, var(--accent-green));
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease, background-color 0.3s ease, font-size 0.3s ease;
+            text-align: center;
+            padding: 5px;
+            box-sizing: border-box;
+            white-space: normal;
+            line-height: 1.2;
+        }
+        .quiz-card.intermediate .quiz-score {
+            background: linear-gradient(to bottom right, #ffc107, var(--accent-orange));
+        }
+        .quiz-card.responsive .quiz-score {
+            background: linear-gradient(to bottom right, #007bff, var(--primary-blue-dark));
+        }
+        .quiz-description {
+            font-size: 1em;
+            color: var(--text-light);
+            margin-bottom: 25px;
+            line-height: 1.7;
+            flex-grow: 1;
+        }
+        .quiz-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95em;
+            color: #888;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-light);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .quiz-footer .details {
+            display: flex;
+            align-items: center;
+        }
+        .quiz-footer .details span {
+            margin-right: 25px;
+            display: flex;
+            align-items: center;
+        }
+        .quiz-footer .details i {
+            margin-right: 10px;
+            color: var(--primary-blue);
+            font-size: 1.1em;
+        }
+        .quiz-footer .action-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .quiz-footer .start-button,
+        .quiz-footer .view-certificate-button {
+            background: linear-gradient(to right, #28a745, #218838);
+            color: var(--white-bg);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+            font-size: 0.9em;
+        }
+        .quiz-footer .start-button:hover,
+        .quiz-footer .view-certificate-button:hover {
+            background: linear-gradient(to right, #218838, #1e7e34);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(40, 167, 69, 0.4);
+        }
+        .quiz-footer .start-button[disabled],
+        .quiz-footer .view-certificate-button[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .quiz-footer .arrow-icon {
+            font-size: 1.4em;
+            color: #bbb;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .quiz-card:hover .quiz-footer .arrow-icon {
+            transform: translateX(8px);
+            color: var(--primary-blue);
+        }
+        .tech-skills-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .tech-skill-pill {
+            background-color: #e8e8e8;
+            color: var(--text-medium);
+            padding: 12px 22px;
+            border-radius: 30px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 3px 8px var(--shadow-light);
+            letter-spacing: 0.2px;
+        }
+        .tech-skill-pill.active,
+        .tech-skill-pill:hover {
+            background: linear-gradient(to right, var(--primary-blue), #56c2e6);
+            color: var(--white-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+        }
+        .old-attempts {
+            text-align: right;
+            color: var(--primary-blue);
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 35px;
+            transition: color 0.3s ease;
+            font-size: 1.05em;
+        }
+        .old-attempts:hover {
+            color: var(--primary-blue-dark);
+            text-decoration: underline;
+        }
+        .advertisement-banner {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: var(--white-bg);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 25px rgba(255, 126, 95, 0.4);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+        .advertisement-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.05);
+            transform: rotate(30deg);
+            z-index: -1;
+        }
+        .advertisement-banner h3 {
+            font-size: 2em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: 800;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .advertisement-banner p {
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+        .advertisement-banner button {
+            background-color: var(--white-bg);
+            color: #ff7e5f;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            letter-spacing: 0.5px;
+        }
+        .advertisement-banner button:hover {
+            background-color: #f0f0f0;
+            color: #d6593b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            align-items: center;
+            justify-content: center;
+        }
+        #certificateModal .modal-content {
+            max-width: 297mm;
+            padding: 0;
+            background: none;
+            box-shadow: none;
+            width: 100%;
+        }
+        #quizModal .modal-content-quiz {
+            background-color: var(--quiz-body-bg);
+            margin: auto;
+            padding: 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 95%;
+            max-width: 900px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .certificate-container {
+            width: 297mm;
+            height: 210mm;
+            border: 2px solid #a3c2e0;
+            padding: 45px;
+            text-align: center;
+            background-color: #ffffff;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background: linear-gradient(160deg, #ffffff 0%, #fcfdfe 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+        }
+        .certificate-container::before,
+        .certificate-container::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 3px solid #66b3ff;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .certificate-container::before {
+            top: 25px;
+            left: 25px;
+            border-right: none;
+            border-bottom: none;
+            border-top-left-radius: 10px;
+        }
+        .certificate-container::after {
+            bottom: 25px;
+            right: 25px;
+            border-left: none;
+            border-top: none;
+            border-bottom-right-radius: 10px;
+        }
+        .certificate-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 90%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        .certificate-container h1 {
+            font-family: 'Lora', serif;
+            color: #1a3450;
+            font-size: 3.8em;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            padding-bottom: 12px;
+            position: relative;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+        .certificate-container h1::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+            width: 120px;
+            height: 4px;
+            background-color: #007bff;
+            border-radius: 2px;
+        }
+        .certificate-container h2 {
+            font-family: 'Lora', serif;
+            color: #2b496e;
+            font-size: 2.2em;
+            margin-top: 28px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-style: italic;
+        }
+        .certificate-container p {
+            color: #555;
+            font-size: 1.18em;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+        .statement {
+            font-size: 1.4em;
+            font-weight: 400;
+            color: #333;
+            margin-top: 25px;
+            margin-bottom: 8px;
+        }
+        .name {
+            font-family: 'Lora', serif;
+            font-size: 3.5em;
+            font-weight: 700;
+            color: #0056b3;
+            margin: 30px 0;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e0e6eb;
+            display: inline-block;
+        }
+        .assessment-details {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px dashed #c0d0e0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 25px;
+        }
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            min-width: 180px;
+            font-size: 1.05em;
+            color: #778899;
+        }
+        .detail-item strong {
+            color: #2c3e50;
+            margin-top: 6px;
+            font-size: 1.15em;
+            font-weight: 700;
+        }
+        .signature-section {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #d0dbe2;
+            width: 100%;
+        }
+        .signature-block {
+            text-align: center;
+            flex: 1;
+            padding: 0 15px;
+        }
+        .signature {
+            border-top: 1px solid #99aab5;
+            padding-top: 8px;
+            margin: 0 auto 10px auto;
+            width: 60%;
+            font-size: 1em;
+            color: #555;
+            font-style: italic;
+        }
+        .signatory-name {
+            font-size: 1.1em;
+            color: #2c3e50;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+        .signatory-title {
+            font-size: 0.9em;
+            color: #778899;
+        }
+        .logo {
+            max-width: 180px;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.08));
+        }
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+        @media print {
+            body {
+                background-color: #fff;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+            .certificate-container {
+                width: 297mm;
+                height: 210mm;
+                box-shadow: none;
+                margin: 0;
+                border-radius: 0;
+                border: 2px solid #a3c2e0;
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+                background: linear-gradient(160deg, #ffffff 0%, #fcfdfe 100%);
+            }
+            .certificate-container::before,
+            .certificate-container::after {
+                border-color: #66b3ff;
+            }
+            .certificate-container h1::after {
+                background-color: #007bff;
+            }
+            body > *:not(.certificate-container) {
+                display: none !important;
+            }
+            .modal {
+                position: static !important;
+                display: block !important;
+                background-color: transparent !important;
+                overflow: hidden !important;
+            }
+            .modal-content-quiz {
+                box-shadow: none !important;
+            }
+        }
+        @media screen and (max-width: 1000px) {
+            .certificate-container {
+                width: 95%;
+                height: auto;
+                padding: 30px;
+                border-width: 1px;
+            }
+            .certificate-container::before,
+            .certificate-container::after {
+                width: 40px;
+                height: 40px;
+                top: 15px;
+                left: 15px;
+                bottom: 15px;
+                right: 15px;
+                border-width: 2px;
+            }
+            .certificate-container h1 {
+                font-size: 3.2em;
+            }
+            .certificate-container h2 {
+                font-size: 1.8em;
+            }
+            .name {
+                font-size: 2.8em;
+            }
+            .certificate-container p, .statement {
+                font-size: 1.05em;
+            }
+            .signature-section {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 30px;
+            }
+            .signature-block {
+                margin-bottom: 15px;
+                width: 100%;
+            }
+            .signature {
+                width: 70%;
+            }
+            .logo {
+                max-width: 140px;
+            }
+        }
+        @media screen and (max-width: 700px) {
+            .certificate-container h1 {
+                font-size: 2.8em;
+            }
+            .certificate-container h2 {
+                font-size: 1.6em;
+            }
+            .name {
+                font-size: 2.5em;
+            }
+            .certificate-container p, .statement {
+                font-size: 0.95em;
+            }
+            .detail-item {
+                font-size: 0.9em;
+            }
+        }
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .page-content {
+            display: none;
+            flex-grow: 1;
+            padding-bottom: 20px;
+        }
+        .page-content.active-page {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .page-content .section-content-wrapper {
+            flex-grow: 1;
+            background-color: var(--white-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px var(--shadow-medium);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        @media (max-width: 1200px) {
+            .main-content {
+                padding: 30px;
+            }
+            .header {
+                padding: 20px 25px;
+                margin-bottom: 25px;
+            }
+            .quizzes-grid {
+                gap: 25px;
+                margin-bottom: 40px;
+            }
+            .advertisement-banner {
+                padding: 25px;
+                margin-top: 25px;
+                margin-bottom: 40px;
+            }
+            .page-content.active-page {
+                min-height: auto;
+            }
+            #quizModal .modal-content-quiz {
+                max-width: 800px;
+                height: 85vh;
+            }
+        }
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 200px;
+            }
+            .main-content {
+                padding: 25px;
+            }
+            .header .left-section h2 {
+                font-size: 1.5em;
+            }
+            .header .right-section .add-skill-button,
+            .header .right-section .profile {
+                font-size: 0.95em;
+                padding: 10px 20px;
+            }
+            .section-title {
+                font-size: 1.4em;
+                margin-bottom: 20px;
+            }
+            .quiz-card {
+                padding: 25px;
+            }
+            .quiz-score {
+                width: 65px;
+                height: 65px;
+                font-size: 1.7em;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 25px;
+            }
+            .quiz-card-title {
+                font-size: 1.1em;
+            }
+            .quiz-description {
+                font-size: 0.95em;
+            }
+            .advertisement-banner h3 {
+                font-size: 1.8em;
+            }
+            .advertisement-banner p {
+                font-size: 1em;
+            }
+            .page-content.active-page {
+                min-height: auto;
+            }
+            #quizModal .modal-content-quiz {
+                max-width: 700px;
+                height: 80vh;
+            }
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: stretch;
+                height: auto;
+            }
+            body {
+                height: auto;
+                overflow-y: auto;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 280px;
+                padding: 15px 0;
+                box-shadow: 0 0 20px rgba(0,0,0,0.3);
+                border-radius: 0;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 1000;
+                overflow-y: auto;
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .menu-icon {
+                display: block;
+            }
+            .header {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 20px;
+                margin-bottom: 25px;
+                box-shadow: 0 5px 15px var(--shadow-light);
+            }
+            .header .left-section {
+                order: 1;
+            }
+            .header .right-section {
+                margin-top: 0;
+                width: auto;
+                justify-content: flex-end;
+                flex-wrap: nowrap;
+            }
+            .header .right-section .add-skill-button {
+                width: auto;
+                margin-bottom: 0;
+                margin-right: 15px;
+                padding: 8px 15px;
+                font-size: 0.85em;
+            }
+            .header .right-section .profile {
+                width: auto;
+                justify-content: flex-end;
+                margin-bottom: 0;
+                padding: 6px 12px;
+                font-size: 0.85em;
+            }
+            .header .right-section .profile img {
+                width: 32px;
+                height: 32px;
+                margin-right: 8px;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+                overflow-y: auto;
+                width: 100%;
+            }
+            .quizzes-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                margin-bottom: 30px;
+            }
+            .quiz-card {
+                padding: 20px;
+                border-radius: 15px;
+                border-bottom-width: 8px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            }
+            .quiz-score {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5em;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 20px;
+            }
+            .quiz-footer {
+                font-size: 0.9em;
+                padding-top: 15px;
+            }
+            .tech-skill-pill {
+                padding: 10px 18px;
+                font-size: 0.9em;
+            }
+            .old-attempts {
+                font-size: 1em;
+                margin-bottom: 25px;
+            }
+            .advertisement-banner {
+                padding: 20px;
+                margin-top: 20px;
+                margin-bottom: 30px;
+            }
+            .advertisement-banner h3 {
+                font-size: 1.5em;
+            }
+            .advertisement-banner p {
+                font-size: 0.95em;
+            }
+            .advertisement-banner button {
+                padding: 10px 20px;
+            }
+            .page-content.active-page {
+                min-height: auto;
+            }
+            #quizModal .modal-content-quiz {
+                max-width: 95%;
+                height: 90vh;
+            }
+        }
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 250px;
+            }
+            .header .left-section {
+                flex-grow: 1;
+            }
+            .header .right-section {
+                flex-grow: 0;
+            }
+            .header .right-section .add-skill-button {
+                display: none;
+            }
+            .quiz-score {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3em;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 15px;
+            }
+            .quiz-main-content-area {
+                flex-direction: column;
+                overflow-y: auto;
+            }
+            .right-sidebar-modal {
+                max-width: 100%;
+                margin-top: 20px;
+            }
+            .question-section-modal {
+                flex-direction: column;
+            }
+            .problem-statement-modal, .options-section-modal {
+                padding: 10px;
+            }
+            .quiz-modal-header, .quiz-modal-footer {
+                padding: 10px;
+            }
+            .quiz-modal-header .header-title {
+                font-size: 1.2em;
+            }
+            .quiz-modal-header .header-right span {
+                font-size: 0.9em;
+            }
+            .quiz-modal-header .close-button {
+                font-size: 24px;
+            }
+        }
+        .login-body {
+            background: #f0f2f5;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 400px;
+            max-width: 90%;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .form-wrapper {
+            display: flex;
+            width: 200%;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .form-panel {
+            flex-shrink: 0;
+            width: 50%;
+            padding: 40px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .form-panel h2 {
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            color: #333;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .input-group input {
+            width: calc(100% - 20px);
+            padding: 10px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+            color: #333;
+            font-size: 1.1em;
+            outline: none;
+            transition: border-bottom 0.3s ease;
+            border-radius: 0;
+        }
+        .input-group input:focus {
+            border-bottom: 2px solid #6a11cb;
+        }
+        .input-group label {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            color: rgba(51, 51, 51, 0.7);
+            pointer-events: none;
+            transition: 0.3s ease all;
+        }
+        .input-group input:focus ~ label,
+        .input-group input:not(:placeholder-shown) ~ label,
+        .input-group label.active {
+            top: -20px;
+            font-size: 0.8em;
+            color: #6a11cb;
+        }
+        .animated-button {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            margin-top: 10px;
+        }
+        .animated-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .animated-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+        .animated-button:hover::before {
+            left: 0;
+        }
+        .login-panel p {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        .login-panel a {
+            color: #6a11cb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            border-radius: 5px;
+        }
+        .login-panel a:hover {
+            color: #2575fc;
+            text-decoration: underline;
+        }
+        .social-login-options {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.05);
+            color: #333;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .social-button:hover {
+            background: rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .social-button svg {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            fill: #333;
+        }
+        .form-wrapper.show-signup {
+            transform: translateX(-50%);
+        }
+        @media (max-width: 600px) {
+            .login-container {
+                width: 100%;
+                border-radius: 0;
+            }
+            .form-panel {
+                padding: 20px;
+            }
+            .form-panel h2 {
+                font-size: 1.8em;
+            }
+        }
+        body.login-page-active {
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
+        }
+        body.login-page-active .dashboard-wrapper {
+            display: none;
+        }
+        body:not(.login-page-active) .login-wrapper {
+            display: none;
+        }
+        body:not(.login-page-active) .dashboard-wrapper {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .certification-card {
+            background-color: var(--white-bg);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px var(--shadow-light);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-left: 8px solid var(--primary-blue);
+        }
+        .certification-card h4 {
+            margin: 0;
+            color: var(--text-dark);
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+        .certification-card p {
+            margin: 0;
+            color: var(--text-medium);
+            font-size: 0.95em;
+        }
+        .certification-card .download-btn {
+            background-color: var(--accent-green);
+            color: var(--white-bg);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            align-self: flex-start;
+            margin-top: 10px;
+        }
+        .certification-card .download-btn:hover {
+            background-color: #1e7e34;
+            transform: translateY(-2px);
+        }
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            flex-grow: 1;
+        }
+        .achievement-card {
+            background-color: var(--white-bg);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px var(--shadow-light);
+            transition: transform 0.3s ease;
+        }
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--shadow-medium);
+        }
+        .achievement-card i {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        .achievement-card .trophy-green {
+            color: #28a745;
+        }
+        .achievement-card .trophy-blue {
+            color: #007bff;
+        }
+        .achievement-card .trophy-yellow {
+            color: #ffc107;
+        }
+        .achievement-card .trophy-grey {
+            color: #ccc;
+        }
+        .achievement-card h5 {
+            margin: 0;
+            font-size: 1.1em;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        .achievement-card p {
+            font-size: 0.85em;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            align-items: center;
+            justify-content: center;
+        }
+        #certificateModal .modal-content {
+            max-width: 297mm;
+            padding: 0;
+            background: none;
+            box-shadow: none;
+            width: 100%;
+        }
+        #quizModal .modal-content-quiz {
+            background-color: var(--quiz-body-bg);
+            margin: auto;
+            padding: 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 95%;
+            max-width: 900px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .certificate-container {
+            width: 297mm;
+            height: 210mm;
+            border: 2px solid #a3c2e0;
+            padding: 45px;
+            text-align: center;
+            background-color: #ffffff;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background: linear-gradient(160deg, #ffffff 0%, #fcfdfe 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+        }
+        .certificate-container::before,
+        .certificate-container::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 3px solid #66b3ff;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .certificate-container::before {
+            top: 25px;
+            left: 25px;
+            border-right: none;
+            border-bottom: none;
+            border-top-left-radius: 10px;
+        }
+        .certificate-container::after {
+            bottom: 25px;
+            right: 25px;
+            border-left: none;
+            border-top: none;
+            border-bottom-right-radius: 10px;
+        }
+        .certificate-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 90%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        .certificate-container h1 {
+            font-family: 'Lora', serif;
+            color: #1a3450;
+            font-size: 3.8em;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            padding-bottom: 12px;
+            position: relative;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+        .certificate-container h1::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+            width: 120px;
+            height: 4px;
+            background-color: #007bff;
+            border-radius: 2px;
+        }
+        .certificate-container h2 {
+            font-family: 'Lora', serif;
+            color: #2b496e;
+            font-size: 2.2em;
+            margin-top: 28px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-style: italic;
+        }
+        .certificate-container p {
+            color: #555;
+            font-size: 1.18em;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+        .statement {
+            font-size: 1.4em;
+            font-weight: 400;
+            color: #333;
+            margin-top: 25px;
+            margin-bottom: 8px;
+        }
+        .name {
+            font-family: 'Lora', serif;
+            font-size: 3.5em;
+            font-weight: 700;
+            color: #0056b3;
+            margin: 30px 0;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e0e6eb;
+            display: inline-block;
+        }
+        .assessment-details {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px dashed #c0d0e0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 25px;
+        }
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            min-width: 180px;
+            font-size: 1.05em;
+            color: #778899;
+        }
+        .detail-item strong {
+            color: #2c3e50;
+            margin-top: 6px;
+            font-size: 1.15em;
+            font-weight: 700;
+        }
+        .signature-section {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #d0dbe2;
+            width: 100%;
+        }
+        .signature-block {
+            text-align: center;
+            flex: 1;
+            padding: 0 15px;
+        }
+        .signature {
+            border-top: 1px solid #99aab5;
+            padding-top: 8px;
+            margin: 0 auto 10px auto;
+            width: 60%;
+            font-size: 1em;
+            color: #555;
+            font-style: italic;
+        }
+        .signatory-name {
+            font-size: 1.1em;
+            color: #2c3e50;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+        .signatory-title {
+            font-size: 0.9em;
+            color: #778899;
+        }
+        .logo {
+            max-width: 180px;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.08));
+        }
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+        @media print {
+            body {
+                background-color: #fff;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+            .certificate-container {
+                width: 297mm;
+                height: 210mm;
+                box-shadow: none;
+                margin: 0;
+                border-radius: 0;
+                border: 2px solid #a3c2e0;
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+                background: linear-gradient(160deg, #ffffff 0%, #fcfdfe 100%);
+            }
+            .certificate-container::before,
+            .certificate-container::after {
+                border-color: #66b3ff;
+            }
+            .certificate-container h1::after {
+                background-color: #007bff;
+            }
+            body > *:not(.certificate-container) {
+                display: none !important;
+            }
+            .modal {
+                position: static !important;
+                display: block !important;
+                background-color: transparent !important;
+                overflow: hidden !important;
+            }
+            .modal-content-quiz {
+                box-shadow: none !important;
+            }
+        }
+        @media screen and (max-width: 1000px) {
+            .certificate-container {
+                width: 95%;
+                height: auto;
+                padding: 30px;
+                border-width: 1px;
+            }
+            .certificate-container::before,
+            .certificate-container::after {
+                width: 40px;
+                height: 40px;
+                top: 15px;
+                left: 15px;
+                bottom: 15px;
+                right: 15px;
+                border-width: 2px;
+            }
+            .certificate-container h1 {
+                font-size: 3.2em;
+            }
+            .certificate-container h2 {
+                font-size: 1.8em;
+            }
+            .name {
+                font-size: 2.8em;
+            }
+            .certificate-container p, .statement {
+                font-size: 1.05em;
+            }
+            .signature-section {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 30px;
+            }
+            .signature-block {
+                margin-bottom: 15px;
+                width: 100%;
+            }
+            .signature {
+                width: 70%;
+            }
+            .logo {
+                max-width: 140px;
+            }
+        }
+        @media screen and (max-width: 700px) {
+            .certificate-container h1 {
+                font-size: 2.8em;
+            }
+            .certificate-container h2 {
+                font-size: 1.6em;
+            }
+            .name {
+                font-size: 2.5em;
+            }
+            .certificate-container p, .statement {
+                font-size: 0.95em;
+            }
+            .detail-item {
+                font-size: 0.9em;
+            }
+        }
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .page-content {
+            display: none;
+            flex-grow: 1;
+            padding-bottom: 20px;
+        }
+        .page-content.active-page {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .page-content .section-content-wrapper {
+            flex-grow: 1;
+            background-color: var(--white-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px var(--shadow-medium);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        @media (max-width: 1200px) {
+            .main-content {
+                padding: 30px;
+            }
+            .header {
+                padding: 20px 25px;
+                margin-bottom: 25px;
+            }
+            .quizzes-grid {
+                gap: 25px;
+                margin-bottom: 40px;
+            }
+            .advertisement-banner {
+                padding: 25px;
+                margin-top: 25px;
+                margin-bottom: 40px;
+            }
+            .page-content.active-page {
+                min-height: auto;
+            }
+            #quizModal .modal-content-quiz {
+                max-width: 800px;
+                height: 85vh;
+            }
+        }
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 200px;
+            }
+            .main-content {
+                padding: 25px;
+            }
+            .header .left-section h2 {
+                font-size: 1.5em;
+            }
+            .header .right-section .add-skill-button,
+            .header .right-section .profile {
+                font-size: 0.95em;
+                padding: 10px 20px;
+            }
+            .section-title {
+                font-size: 1.4em;
+                margin-bottom: 20px;
+            }
+            .quiz-card {
+                padding: 25px;
+            }
+            .quiz-score {
+                width: 65px;
+                height: 65px;
+                font-size: 1.7em;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 25px;
+            }
+            .quiz-card-title {
+                font-size: 1.1em;
+            }
+            .quiz-description {
+                font-size: 0.95em;
+            }
+            .advertisement-banner h3 {
+                font-size: 1.8em;
+            }
+            .advertisement-banner p {
+                font-size: 1em;
+            }
+            .page-content.active-page {
+                min-height: auto;
+            }
+            #quizModal .modal-content-quiz {
+                max-width: 700px;
+                height: 80vh;
+            }
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: stretch;
+                height: auto;
+            }
+            body {
+                height: auto;
+                overflow-y: auto;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 280px;
+                padding: 15px 0;
+                box-shadow: 0 0 20px rgba(0,0,0,0.3);
+                border-radius: 0;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 1000;
+                overflow-y: auto;
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .menu-icon {
+                display: block;
+            }
+            .header {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 20px;
+                margin-bottom: 25px;
+                box-shadow: 0 5px 15px var(--shadow-light);
+            }
+            .header .left-section {
+                order: 1;
+            }
+            .header .right-section {
+                margin-top: 0;
+                width: auto;
+                justify-content: flex-end;
+                flex-wrap: nowrap;
+            }
+            .header .right-section .add-skill-button {
+                width: auto;
+                margin-bottom: 0;
+                margin-right: 15px;
+                padding: 8px 15px;
+                font-size: 0.85em;
+            }
+            .header .right-section .profile {
+                width: auto;
+                justify-content: flex-end;
+                margin-bottom: 0;
+                padding: 6px 12px;
+                font-size: 0.85em;
+            }
+            .header .right-section .profile img {
+                width: 32px;
+                height: 32px;
+                margin-right: 8px;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+                overflow-y: auto;
+                width: 100%;
+            }
+            .quizzes-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                margin-bottom: 30px;
+            }
+            .quiz-card {
+                padding: 20px;
+                border-radius: 15px;
+                border-bottom-width: 8px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            }
+            .quiz-score {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5em;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 20px;
+            }
+            .quiz-footer {
+                font-size: 0.9em;
+                padding-top: 15px;
+            }
+            .tech-skill-pill {
+                padding: 10px 18px;
+                font-size: 0.9em;
+            }
+            .old-attempts {
+                font-size: 1em;
+                margin-bottom: 25px;
+            }
+            .advertisement-banner {
+                padding: 20px;
+                margin-top: 20px;
+                margin-bottom: 30px;
+            }
+            .advertisement-banner h3 {
+                font-size: 1.5em;
+            }
+            .advertisement-banner p {
+                font-size: 0.95em;
+            }
+            .advertisement-banner button {
+                padding: 10px 20px;
+            }
+            .page-content.active-page {
+                min-height: auto;
+            }
+            #quizModal .modal-content-quiz {
+                max-width: 95%;
+                height: 90vh;
+            }
+        }
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 250px;
+            }
+            .header .left-section {
+                flex-grow: 1;
+            }
+            .header .right-section {
+                flex-grow: 0;
+            }
+            .header .right-section .add-skill-button {
+                display: none;
+            }
+            .quiz-score {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3em;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 15px;
+            }
+            .quiz-main-content-area {
+                flex-direction: column;
+                overflow-y: auto;
+            }
+            .right-sidebar-modal {
+                max-width: 100%;
+                margin-top: 20px;
+            }
+            .question-section-modal {
+                flex-direction: column;
+            }
+            .problem-statement-modal, .options-section-modal {
+                padding: 10px;
+            }
+            .quiz-modal-header, .quiz-modal-footer {
+                padding: 10px;
+            }
+            .quiz-modal-header .header-title {
+                font-size: 1.2em;
+            }
+            .quiz-modal-header .header-right span {
+                font-size: 0.9em;
+            }
+            .quiz-modal-header .close-button {
+                font-size: 24px;
+            }
+        }
+        .login-body {
+            background: #f0f2f5;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 400px;
+            max-width: 90%;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .form-wrapper {
+            display: flex;
+            width: 200%;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .form-panel {
+            flex-shrink: 0;
+            width: 50%;
+            padding: 40px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .form-panel h2 {
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            color: #333;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .input-group input {
+            width: calc(100% - 20px);
+            padding: 10px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+            color: #333;
+            font-size: 1.1em;
+            outline: none;
+            transition: border-bottom 0.3s ease;
+            border-radius: 0;
+        }
+        .input-group input:focus {
+            border-bottom: 2px solid #6a11cb;
+        }
+        .input-group label {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            color: rgba(51, 51, 51, 0.7);
+            pointer-events: none;
+            transition: 0.3s ease all;
+        }
+        .input-group input:focus ~ label,
+        .input-group input:not(:placeholder-shown) ~ label,
+        .input-group label.active {
+            top: -20px;
+            font-size: 0.8em;
+            color: #6a11cb;
+        }
+        .animated-button {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            margin-top: 10px;
+        }
+        .animated-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .animated-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+        .animated-button:hover::before {
+            left: 0;
+        }
+        .login-panel p {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        .login-panel a {
+            color: #6a11cb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            border-radius: 5px;
+        }
+        .login-panel a:hover {
+            color: #2575fc;
+            text-decoration: underline;
+        }
+        .social-login-options {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.05);
+            color: #333;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .social-button:hover {
+            background: rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .social-button svg {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            fill: #333;
+        }
+        .form-wrapper.show-signup {
+            transform: translateX(-50%);
+        }
+        @media (max-width: 600px) {
+            .login-container {
+                width: 100%;
+                border-radius: 0;
+            }
+            .form-panel {
+                padding: 20px;
+            }
+            .form-panel h2 {
+                font-size: 1.8em;
+            }
+        }
+        body.login-page-active {
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
+        }
+        body.login-page-active .dashboard-wrapper {
+            display: none;
+        }
+        body:not(.login-page-active) .login-wrapper {
+            display: none;
+        }
+        body:not(.login-page-active) .dashboard-wrapper {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .certification-card {
+            background-color: var(--white-bg);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px var(--shadow-light);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-left: 8px solid var(--primary-blue);
+        }
+        .certification-card h4 {
+            margin: 0;
+            color: var(--text-dark);
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+        .certification-card p {
+            margin: 0;
+            color: var(--text-medium);
+            font-size: 0.95em;
+        }
+        .certification-card .download-btn {
+            background-color: var(--accent-green);
+            color: var(--white-bg);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            align-self: flex-start;
+            margin-top: 10px;
+        }
+        .certification-card .download-btn:hover {
+            background-color: #1e7e34;
+            transform: translateY(-2px);
+        }
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            flex-grow: 1;
+        }
+        .achievement-card {
+            background-color: var(--white-bg);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px var(--shadow-light);
+            transition: transform 0.3s ease;
+        }
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--shadow-medium);
+        }
+        .achievement-card i {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        .achievement-card .trophy-green {
+            color: #28a745;
+        }
+        .achievement-card .trophy-blue {
+            color: #007bff;
+        }
+        .achievement-card .trophy-yellow {
+            color: #ffc107;
+        }
+        .achievement-card .trophy-grey {
+            color: #ccc;
+        }
+        .achievement-card h5 {
+            margin: 0;
+            font-size: 1.1em;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        .achievement-card p {
+            font-size: 0.85em;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+        #quizModal {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: var(--quiz-body-bg);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #quizModal .modal-content-quiz {
+            background-color: var(--quiz-bg);
+            border-radius: 0;
+            box-shadow: none;
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            margin: 0;
+        }
+        .quiz-modal-header {
+            background-color: var(--quiz-header-footer-bg);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px var(--quiz-box-shadow-light);
+            border-radius: 0;
+            z-index: 10;
+            transition: background-color 0.3s ease;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .quiz-modal-header .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--quiz-dark-text);
+        }
+        .quiz-modal-header .header-right {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 600;
+            gap: 15px;
+        }
+        .quiz-modal-header .theme-button {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--quiz-text-color);
+            transition: color 0.3s ease;
+        }
+        .quiz-modal-header .theme-button:hover {
+            color: var(--quiz-highlight-blue);
+        }
+        .quiz-modal-header .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 11;
+        }
+        .quiz-modal-header .close-button:hover {
+            color: var(--quiz-dark-text);
+        }
+        .quiz-main-content-area {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+            overflow-y: auto;
+        }
+        .quiz-container-modal {
+            flex: 3;
+            background-color: var(--quiz-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px var(--quiz-box-shadow-light);
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease;
+            overflow: hidden;
+        }
+        .quiz-navigation-modal {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--quiz-border-color-light);
+            padding-bottom: 10px;
+            flex-shrink: 0;
+        }
+        .quiz-navigation-modal div {
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+        }
+        .quiz-navigation-modal div.active {
+            background-color: var(--quiz-gray-light);
+            color: var(--quiz-highlight-blue);
+        }
+        .question-section-modal {
+            display: flex;
+            gap: 20px;
+            flex: 1;
+        }
+        .problem-statement-modal,
+        .options-section-modal {
+            flex: 1;
+            background-color: var(--quiz-problem-option-bg);
+            border-radius: 5px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+        }
+        .question-text {
+            font-size: 16px;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+            border: 1px solid var(--quiz-border-color-medium);
+            background-color: var(--quiz-header-footer-bg);
+        }
+        .option:hover {
+            background-color: var(--quiz-light-blue-hover);
+            border-color: var(--quiz-highlight-blue);
+        }
+        .option input[type='radio'] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: var(--quiz-highlight-blue);
+        }
+        .options-list .option.selected {
+            background-color: var(--quiz-light-blue-hover);
+            border-color: var(--quiz-highlight-blue);
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+        .options-list .option.correct-answer {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+            font-weight: bold;
+        }
+        .options-list .option.wrong-answer {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+            font-weight: bold;
+        }
+        .right-sidebar-modal {
+            flex: 1;
+            max-width: 280px;
+            background-color: var(--quiz-sidebar-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px var(--quiz-box-shadow-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        .quiz-question-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            overflow-y: auto;
+            max-height: 200px;
+        }
+        .question-number {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            border: 1px solid var(--quiz-border-color-medium);
+        }
+        .question-number.active-question {
+            outline: 3px solid var(--quiz-highlight-blue);
+        }
+        .question-number.answered {
+            background-color: var(--quiz-green);
+            color: white;
+        }
+        .question-number.not-answered {
+            background-color: var(--quiz-gray-light);
+        }
+        .question-number.marked {
+            background-color: var(--quiz-yellow);
+        }
+        .question-number.not-visited {
+            background-color: var(--quiz-red);
+            color: white;
+        }
+        .legends {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--quiz-border-color-medium);
+            width: 100%;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .legend-box.answered { background-color: var(--quiz-green); }
+        .legend-box.not-answered { background-color: var(--quiz-gray-light); border: 1px solid var(--quiz-border-color-medium); }
+        .legend-box.marked { background-color: var(--quiz-yellow); }
+        .legend-box.not-visited { background-color: var(--quiz-red); }
+        .submit-close-button {
+            width: 100%;
+            margin-top: auto;
+            padding: 12px 25px;
+            background-color: var(--quiz-highlight-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .submit-close-button:hover { background-color: var(--quiz-highlight-blue-dark); }
+        .quiz-modal-footer {
+            background-color: var(--quiz-header-footer-bg);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 4px var(--quiz-box-shadow-light);
+            border-radius: 0;
+            z-index: 10;
+            flex-shrink: 0;
+        }
+        .nav-buttons button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-buttons button.primary { background-color: var(--quiz-highlight-blue); color: white; }
+        .nav-buttons button.primary:hover { background-color: var(--quiz-highlight-blue-dark); }
+        .nav-buttons button.secondary { background-color: var(--quiz-gray-medium); color: white; }
+        .message-box-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--quiz-message-overlay-bg);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.4s ease;
+        }
+        .message-box-overlay.show { opacity: 1; visibility: visible; }
+        .message-box {
+            background-color: var(--quiz-message-box-bg); padding: 30px; border-radius: 15px;
+            box-shadow: 0 8px 25px var(--quiz-box-shadow-light); text-align: center; max-width: 450px;
+            transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .message-box-overlay.show .message-box { transform: scale(1); }
+        .message-box button {
+            padding: 12px 30px; background-color: var(--quiz-highlight-blue); color: white;
+            border: none; border-radius: 8px; cursor: pointer; margin-top: 25px; font-size: 1em;
+        }
+        .message-box button.confirm-no { background-color: #ff6b6b; margin-left: 15px; }
+        .page-content-assessment {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            padding: 40px;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            animation: fadeInScale 0.7s ease-out forwards;
+            position: fixed; /* Changed to fixed */
+            top: 0; left: 0; width: 100vw; height: 100vh; /* Fill entire viewport */
+            z-index: 990;
+            background-color: var(--light-gray-bg);
+        }
+        .page-content-assessment.active-page {
+            display: flex;
+        }
+        .pre-assessment-intro-page {
+            background: var(--quiz-homepage-bg-gradient);
+            color: var(--quiz-text-color);
+        }
+        .pre-assessment-intro-page h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: var(--quiz-homepage-text-shadow);
+        }
+        .pre-assessment-intro-page p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+        .pre-assessment-intro-page .start-button-assessment {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: var(--quiz-highlight-blue);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .pre-assessment-intro-page .start-button-assessment:hover {
+            background-color: var(--quiz-highlight-blue-dark);
+            transform: translateY(-3px);
+        }
+        .system-check-page {
+            background-color: var(--quiz-header-footer-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--quiz-box-shadow-light);
+            margin: 20px;
+            max-width: 900px;
+            padding: 40px;
+            color: var(--quiz-text-color);
+        }
+        .system-check-page h2 {
+            font-size: 2em;
+            margin-bottom: 30px;
+            color: var(--quiz-dark-text);
+        }
+        .system-check-list {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 30px;
+        }
+        .system-check-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--quiz-border-color-light);
+        }
+        .check-status.passed { color: var(--quiz-green); }
+        .check-status.failed { color: var(--quiz-red); }
+        .system-check-buttons button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease-in-out;
+            background-color: var(--quiz-highlight-blue);
+            color: white;
+        }
+        .system-check-buttons button:hover {
+            background-color: var(--quiz-highlight-blue-dark);
+            transform: translateY(-3px);
+        }
+        body.assessment-flow-active .login-wrapper,
+        body.assessment-flow-active .dashboard-wrapper {
+            display: none !important;
+        }
+        body.quiz-active #quizModal {
+            display: flex !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-container">
+            <div class="form-wrapper">
+                <div class="form-panel login-panel">
+                    <h2>Login</h2>
+                    <form id="login-form">
+                        <div class="input-group">
+                            <input type="text" id="login-username" required autocomplete="username" placeholder=" ">
+                            <label for="login-username">Username</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="login-password" required autocomplete="current-password" placeholder=" ">
+                            <label for="login-password">Password</label>
+                        </div>
+                        <button type="submit" class="animated-button">Login</button>
+                        <div class="social-login-options">
+                            <button type="button" class="social-button">
+                                <svg viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
+                                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12
+                                    c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,8.065,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4
+                                    C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+                                    <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,8.065,3.039l5.657-5.657
+                                    C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+                                    <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238
+                                    C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,4.809C9.27,39.197,16.221,44,24,44z"/>
+                                    <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.117-4.087,5.571
+                                    c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+                                </svg>
+                                Login with Google
+                            </button>
+                        </div>
+                        <p>Don't have an account? <a href="#" id="signup-link">Sign Up</a></p>
+                    </form>
+                </div>
+                <div class="form-panel signup-panel">
+                    <h2>Sign Up</h2>
+                    <form id="signup-form">
+                        <div class="input-group">
+                            <input type="text" id="signup-username" required autocomplete="username" placeholder=" ">
+                            <label for="signup-username">Username</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="email" id="signup-email" required autocomplete="email" placeholder=" ">
+                            <label for="signup-email">Email</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="tel" id="signup-phone" autocomplete="tel" placeholder=" ">
+                            <label for="signup-phone">Phone Number</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="signup-password" required autocomplete="new-password" placeholder=" ">
+                            <label for="signup-password">Password</label>
+                        </div>
+                        <button type="submit" class="animated-button">Sign Up</button>
+                        <div class="social-login-options">
+                            <button type="button" class="social-button">
+                                <svg viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
+                                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12
+                                    c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,8.065,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4
+                                    C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+                                    <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,8.065,3.039l5.657-5.657
+                                    C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+                                    <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238
+                                    C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,4.809C9.27,39.197,16.221,44,24,44z"/>
+                                    <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.117-4.087,5.571
+                                    c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+                                </svg>
+                                Sign Up with Google
+                            </button>
+                        </div>
+                        <p>Already have an account? <a href="#" id="login-link">Login</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-wrapper">
+        <div class="container">
+            <aside class="sidebar" id="sidebar">
+                <div>
+                    <div class="sidebar-header">
+                        <img src="FullLogo_Transparent_NoBuffer.png" alt="SkillSync Logo">
+                    </div>
+                    <nav class="sidebar-nav">
+                        <ul>
+                            <li><a href="#" class="active" data-target="dashboard-page"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                            <li><a href="#" data-target="public-resume-page"><i class="fas fa-file-alt"></i> Public Resume</a></li>
+                            <li><a href="#" data-target="assessments-page"><i class="fas fa-clipboard-list"></i> Assessments</a></li>
+                            <li><a href="#" data-target="training-page"><i class="fas fa-graduation-cap"></i> Training</a></li>
+                            <li><a href="#" data-target="billing-page"><i class="fas fa-dollar-sign"></i> Billing</a></li>
+                            <li><a href="#" data-target="preferences-page"><i class="fas fa-cog"></i> Preferences</a></li>
+                            <li><a href="#" data-target="analytics-page"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                            <li><a href="#" data-target="resources-page"><i class="fas fa-book"></i> Resources</a></li>
+                            <li><a href="#" data-target="certifications-page"><i class="fas fa-certificate"></i> Certifications</a></li>
+                            <li><a href="#" data-target="achievements-page"><i class="fas fa-trophy"></i> Achievements</a></li>
+                            <li><a href="#" data-target="faq-page"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                            <li><a href="#" data-target="help-page"><i class="fas fa-info-circle"></i> Help Center</a></li>
+                            <li><a href="#" data-target="feedback-page"><i class="fas fa-comment-alt"></i> Send Feedback</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="sidebar-footer">
+                    <div class="pro-plan-card">
+                        <h4>Pro Plan</h4>
+                        <p>Start with free 1 month</p>
+                        <button>Get Started</button>
+                    </div>
+                    <ul>
+                        <li><a href="#" class="support-btn">Support</a></li>
+                        <li><a href="#" class="logout-btn">Logout</a></li>
+                    </ul>
+                </div>
+            </aside>
+            <main class="main-content">
+                <header class="header">
+                    <div class="left-section">
+                        <i class="fas fa-bars menu-icon" id="menuIcon"></i>
+                        <h2 id="current-page-title">Assessment</h2>
+                    </div>
+                    <div class="right-section">
+                        <button class="add-skill-button"><i class="fas fa-plus"></i> Add Skill</button>
+                        <div class="profile">
+                            <img src="image.png" alt="User Profile">
+                            <span id="username">Siva</span>
+                        </div>
+                    </div>
+                </header>
+                <section id="dashboard-page" class="page-content active-page">
+                    <h3 class="section-title">Recent Assessment</h3>
+                    <div class="quizzes-grid">
+                        <div class="quiz-card ui-figma" data-quiz-title="UI Figma Quiz" data-quiz-score="80">
+                            <div class="quiz-score">80%</div>
+                            <div class="quiz-card-header">
+                                <span class="quiz-card-title">UI Figma Quiz</span>
+                                <span class="quiz-level">Intermediate</span>
+                            </div>
+                            <p class="quiz-description">
+                                Evaluate the user's skills in Angular and Vue.js, focusing on their ability.
+                            </p>
+                            <div class="quiz-footer">
+                                <div class="details">
+                                    <span><i class="fas fa-question-circle"></i> 10 Questions</span>
+                                    <span><i class="fas fa-clock"></i> 23h</span>
+                                </div>
+                                <div class="action-group">
+                                    <button class="start-button">Start</button>
+                                    <button class="view-certificate-button" style="display: none;">View Certificate</button>
+                                    <i class="fas fa-arrow-right arrow-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quiz-card intermediate" data-quiz-title="Intermediate Web Design Quiz" data-quiz-score="65">
+                            <div class="quiz-score">65%</div>
+                            <div class="quiz-card-header">
+                                <span class="quiz-card-title">Intermediate Web Design Quiz</span>
+                                <span class="quiz-level">Intermediate</span>
+                            </div>
+                            <p class="quiz-description">
+                                Assess your knowledge of advanced HTML, CSS, and basic JavaScript concepts.
+                            </p>
+                            <div class="quiz-footer">
+                                <div class="details">
+                                    <span><i class="fas fa-question-circle"></i> 15 Questions</span>
+                                    <span><i class="fas fa-clock"></i> 45h</span>
+                                </div>
+                                <div class="action-group">
+                                    <button class="start-button">Start</button>
+                                    <button class="view-certificate-button" style="display: none;">View Certificate</button>
+                                    <i class="fas fa-arrow-right arrow-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quiz-card responsive" data-quiz-title="Responsive Design Quiz" data-quiz-score="92">
+                            <div class="quiz-score">92%</div>
+                            <div class="quiz-card-header">
+                                <span class="quiz-card-title">Responsive Design Quiz</span>
+                                <span class="quiz-level">Advanced</span>
+                            </div>
+                            <p class="quiz-description">
+                                Test your ability to create flexible and adaptable layouts for various devices.
+                            </p>
+                            <div class="quiz-footer">
+                                <div class="details">
+                                    <span><i class="fas fa-question-circle"></i> 12 Questions</span>
+                                    <span><i class="fas fa-clock"></i> 30h</span>
+                                </div>
+                                <div class="action-group">
+                                    <button class="start-button">Start</button>
+                                    <button class="view-certificate-button" style="display: none;">View Certificate</button>
+                                    <i class="fas fa-arrow-right arrow-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quiz-card ui-figma" data-quiz-title="Aptitude Quiz" data-quiz-score="80">
+                            <div class="quiz-score">80%</div>
+                            <div class="quiz-card-header">
+                                <span class="quiz-card-title">Aptitude Quiz</span>
+                                <span class="quiz-level">Intermediate</span>
+                            </div>
+                            <p class="quiz-description">
+                                Evaluate the aptitude and logical, focusing on their ability.
+                            </p>
+                            <div class="quiz-footer">
+                                <div class="details">
+                                    <span><i class="fas fa-question-circle"></i> 10 Questions</span>
+                                    <span><i class="fas fa-clock"></i> 23h</span>
+                                </div>
+                                <div class="action-group">
+                                    <button class="start-button">Start</button>
+                                    <button class="view-certificate-button" style="display: none;">View Certificate</button>
+                                    <i class="fas fa-arrow-right arrow-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <section class="advertisement-banner">
+                        <h3>Boost Your Career with Premium Assessments!</h3>
+                        <p>Unlock advanced features, personalized feedback, and exclusive training modules. Sign up today!</p>
+                        <button>Learn More</button>
+                    </section>
+                    <section class="technical-skills">
+                        <h3 class="section-title">Technical Skills Quiz</h3>
+                        <div class="tech-skills-categories">
+                            <span class="tech-skill-pill">PHP</span>
+                            <span class="tech-skill-pill">Aptitude</span>
+                            <span class="tech-skill-pill">Go-lang</span>
+                            <span class="tech-skill-pill">.Net</span>
+                            <span class="tech-skill-pill">Devops</span>
+                            <span class="tech-skill-pill">Python</span>
+                            <span class="tech-skill-pill">Java</span>
+                            <span class="tech-skill-pill">C++</span>
+                            <span class="tech-skill-pill">Ruby</span>
+                            <span class="tech-skill-pill">Swift</span>
+                            <span class="tech-skill-pill">Kotlin</span>
+                            <span class="tech-skill-pill">Rust</span>
+                            <span class="tech-skill-pill">TypeScript</span>
+                            <span class="tech-skill-pill">SQL</span>
+                            <span class="tech-skill-pill">NoSQL</span>
+                            <span class="tech-skill-pill">Cloud Computing</span>
+                            <span class="tech-skill-pill">Machine Learning</span>
+                            <span class="tech-skill-pill">Data Science</span>
+                            <span class="tech-skill-pill">Cybersecurity</span>
+                            <span class="tech-skill-pill">Blockchain</span>
+                        </div>
+                        <div class="old-attempts">Old Attempts <i class="fas fa-arrow-right"></i></div>
+                        <div class="quizzes-grid" id="technicalQuizzesGrid">
+                        </div>
+                    </section>
+                </section>
+                <section id="public-resume-page" class="page-content">
+                    <h3 class="section-title">Your Public Resume</h3>
+                    <div class="section-content-wrapper">
+                        <p>This is where your public-facing resume details would be managed. You can update your skills, experience, and contact information here.</p>
+                        <ul>
+                            <li>View and edit resume sections</li>
+                            <li>Generate shareable links</li>
+                            <li>Track resume views and engagement</li>
+                        </ul>
+                        <button style="background-color: var(--primary-blue); color: var(--white-bg); padding: 10px 20px; border-radius: 25px; border: none; cursor: pointer; margin-top: 15px;">Edit Resume</button>
+                    </div>
+                </section>
+                <section id="assessments-page" class="page-content">
+                    <h3 class="section-title">All Assessments</h3>
+                    <div class="section-content-wrapper">
+                        <h2>Select Your Quiz Section</h2>
+                        <div class="tech-skill-grid">
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('PHP Quiz')">PHP</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('Aptitude Quiz')">Aptitude</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('Go-lang Quiz')">Go-lang</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('.Net Quiz')">.Net</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('Devops Quiz')">Devops</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('Python Quiz')">Python</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('Java Quiz')">Java</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('C++ Quiz')">C++</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('Ruby Quiz')">Ruby</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('Swift Quiz')">Swift</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('Kotlin Quiz')">Kotlin</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('Rust Quiz')">Rust</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('TypeScript Quiz')">TypeScript</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('SQL Quiz')">SQL</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('NoSQL Quiz')">NoSQL</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('Cloud Computing Quiz')">Cloud Computing</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('Machine Learning Quiz')">Machine Learning</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('Data Science Quiz')">Data Science</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('Cybersecurity Quiz')">Cybersecurity</div>
+                            <div class="tech-skill-pill" onclick="startPreAssessmentFlow('Blockchain Quiz')">Blockchain</div>
+                        </div>
+                    </div>
+                    <div style="background-color: var(--white-bg); padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px var(--shadow-medium); margin-top: 20px;">
+                        <h4>Your Progress Summary</h4>
+                        <p>You have completed 15 assessments this month with an average score of 78%.</p>
+                        <div style="display: flex; gap: 15px; margin-top: 20px;">
+                            <span style="background-color: #e6f0ff; padding: 8px 15px; border-radius: 20px; font-weight: 600;">Completed: 15</span>
+                            <span style="background-color: #ffe0b2; padding: 8px 15px; border-radius: 20px; font-weight: 600;">Pending: 5</span>
+                        </div>
+                    </div>
+                </section>
+                <section id="training-page" class="page-content">
+                    <h3 class="section-title">Training Modules</h3>
+                    <div class="section-content-wrapper">
+                        <p>Access curated training modules to enhance your skills and prepare for assessments.</p>
+                        <ul>
+                            <li>Interactive video lessons</li>
+                            <li>Practice exercises</li>
+                            <li>Certification tracks</li>
+                        </ul>
+                        <button style="background-color: var(--primary-blue); color: var(--white-bg); padding: 10px 20px; border-radius: 25px; border: none; cursor: pointer; margin-top: 15px;">Explore Training</button>
+                    </div>
+                </section>
+                <section id="billing-page" class="page-content">
+                    <h3 class="section-title">Billing & Subscription</h3>
+                    <div class="section-content-wrapper">
+                        <p>Manage your subscription, view invoices, and update payment methods.</p>
+                        <ul>
+                            <li>View past invoices</li>
+                            <li>Update payment information</li>
+                            <li>Manage subscription plans</li>
+                        </ul>
+                        <button style="background-color: var(--primary-blue); color: var(--white-bg); padding: 10px 20px; border-radius: 25px; border: none; cursor: pointer; margin-top: 15px;">Go to Billing</button>
+                    </div>
+                </section>
+                <section id="preferences-page" class="page-content">
+                    <h3 class="section-title">User Preferences</h3>
+                    <div class="section-content-wrapper">
+                        <p>Customize your dashboard experience, notification settings, and privacy preferences.</p>
+                        <ul>
+                            <li>Notification settings</li>
+                            <li>Theme customization</li>
+                            <li>Privacy controls</li>
+                        </ul>
+                        <button style="background-color: var(--primary-blue); color: var(--white-bg); padding: 10px 20px; border-radius: 25px; border: none; cursor: pointer; margin-top: 15px;">Update Preferences</button>
+                    </div>
+                </section>
+                <section id="analytics-page" class="page-content">
+                    <h3 class="section-title">Performance Analytics</h3>
+                    <div class="section-content-wrapper">
+                        <p>Detailed insights into your assessment performance, skill growth, and areas for improvement.</p>
+                        <ul>
+                            <li>Skill proficiency graphs</li>
+                            <li>Progress over time</li>
+                            <li>Comparative analysis</li>
+                        </ul>
+                        <button style="background-color: var(--primary-blue); color: var(--white-bg); padding: 10px 20px; border-radius: 25px; border: none; cursor: pointer; margin-top: 15px;">View Full Analytics</button>
+                    </div>
+                </section>
+                <section id="team-page" class="page-content">
+                    <h3 class="section-title">Team Management</h3>
+                    <div class="section-content-wrapper">
+                        <p>If you're part of a team, manage members, assign assessments, and track collective progress.</p>
+                        <ul>
+                            <li>Add/remove team members</li>
+                            <li>Assign group assessments</li>
+                            <li>Team performance reports</li>
+                        </ul>
+                        <button style="background-color: var(--primary-blue); color: var(--white-bg); padding: 10px 20px; border-radius: 25px; border: none; cursor: pointer; margin-top: 15px;">Manage Team</button>
+                    </div>
+                </section>
+                <section id="messages-page" class="page-content">
+                    <h3 class="section-title">Messages</h3>
+                    <div class="section-content-wrapper">
+                        <p>Your inbox for important announcements, personalized feedback, and communications.</p>
+                        <ul>
+                            <li>Read and send messages</li>
+                            <li>Notifications for new messages</li>
+                            <li>Message filtering</li>
+                        </ul>
+                        <button style="background-color: var(--primary-blue); color: var(--white-bg); padding: 10px 20px; border-radius: 25px; border: none; cursor: pointer; margin-top: 15px;">Go to Inbox</button>
+                    </div>
+                </section>
+                <section id="notifications-page" class="page-content">
+                    <h3 class="section-title">Notifications</h3>
+                    <div class="section-content-wrapper">
+                        <p>Stay informed about new assessments, training updates, and important account activities.</p>
+                        <ul>
+                            <li>Activity feed</li>
+                            <li>Customizable notification types</li>
+                            <li>Read/unread management</li>
+                        </ul>
+                        <button style="background-color: var(--primary-blue); color: var(--white-bg); padding: 10px 20px; border-radius: 25px; border: none; cursor: pointer; margin-top: 15px;">View All Notifications</button>
+                    </div>
+                </section>
+                <section id="schedule-page" class="page-content">
+                    <h3 class="section-title">Schedule</h3>
+                    <div class="section-content-wrapper">
+                        <p>Plan your assessment timings and training sessions with an integrated calendar.</p>
+                        <ul>
+                            <li>Calendar view</li>
+                            <li>Set reminders</li>
+                            <li>Sync with external calendars</li>
+                        </ul>
+                        <button style="background-color: var(--primary-blue); color: var(--white-bg); padding: 10px 20px; border-radius: 25px; border: none; cursor: pointer; margin-top: 15px;">View Calendar</button>
+                    </div>
+                </section>
+                <section id="resources-page" class="page-content">
+                    <h3 class="section-title">Resources</h3>
+                    <div class="section-content-wrapper">
+                        <p>Access a library of helpful articles, tutorials, and external links for your learning journey.</p>
+                        <ul>
+                            <li>Knowledge base</li>
+                            <li>Tutorials and guides</li>
+                            <li>External links</li>
+                        </ul>
+                        <button style="background-color: var(--primary-blue); color: var(--white-bg); padding: 10px 20px; border-radius: 25px; border: none; cursor: pointer; margin-top: 15px;">Browse Resources</button>
+                    </div>
+                </section>
+                <section id="certifications-page" class="page-content">
+                    <h3 class="section-title">Your Certifications</h3>
+                    <div id="certifications-list" class="section-content-wrapper">
+                        <p>Your earned certifications will appear here after you successfully complete quizzes.</p>
+                    </div>
+                </section>
+                <section id="achievements-page" class="page-content">
+                    <h3 class="section-title">Your Achievements</h3>
+                    <div id="achievements-list" class="achievements-grid">
+                    </div>
+                </section>
+                <section id="faq-page" class="page-content">
+                    <h3 class="section-title">Frequently Asked Questions</h3>
+                    <div class="section-content-wrapper">
+                        <p>Find answers to common questions about using the platform, assessments, and billing.</p>
+                        <p>This section can contain a long list of questions and answers to demonstrate scrolling within a page.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <p>Curabitur pretium tincidunt lacus. Nulla facilisi. Proin volutpat mollis arcu. Vivamus adipiscing vel dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
+                        <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus.</p>
+                        <p>Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.</p>
+                    </div>
+                </section>
+                <section id="help-page" class="page-content">
+                    <h3 class="section-title">Help Center</h3>
+                    <div class="section-content-wrapper">
+                        <p>Get assistance and support from our team for any issues or queries you might have.</p>
+                        <p>This section also has extended content to help with demonstration of scrolling for the sidebar.</p>
+                        <p>Curabitur pretium tincidunt lacus. Nulla facilisi. Proin volutpat mollis arcu. Vivamus adipiscing vel dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
+                        <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend eleifend tellus.</p>
+                        <p>Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.</p>
+                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    </div>
+                </section>
+                <section id="feedback-page" class="page-content">
+                    <h3 class="section-title">Send Feedback</h3>
+                    <div class="section-content-wrapper">
+                        <p>We value your opinion! Use this section to send us your feedback, suggestions, or report issues.</p>
+                        <p>Your input helps us improve the platform.</p>
+                        <form style="margin-top: 20px;">
+                            <textarea placeholder="Type your feedback here..." rows="5" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-light); resize: vertical; margin-bottom: 15px;"></textarea>
+                            <button type="submit" style="background-color: var(--primary-blue); color: var(--white-bg); padding: 10px 20px; border-radius: 25px; border: none; cursor: pointer;">Submit Feedback</button>
+                        </form>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <section id="pre-assessment-intro-page" class="page-content-assessment pre-assessment-intro-page">
+        <h1>Online Skills Assessment</h1>
+        <p>Test your knowledge across a wide range of technical skills. Click below to begin the system check before you start.</p>
+        <button class="start-button-assessment" id="start-assessment-intro-button">Start Assessment</button>
+    </section>
+    <section id="system-check-page" class="page-content-assessment system-check-page" style="margin-left: 200px;">
+        <h2>System Compatibility Check</h2>
+        <ul class="system-check-list">
+            <li class="system-check-item"><span>Internet Connection</span><span id="check-internet" class="check-status"><i class="fas fa-hourglass-half"></i> Pending</span></li>
+            <li class="system-check-item"><span>Browser Compatibility</span><span id="check-browser" class="check-status"><i class="fas fa-hourglass-half"></i> Pending</span></li>
+        </ul>
+        <div class="system-check-buttons">
+            <button class="run-check" id="run-system-check-button">Run System Check</button>
+        </div>
+    </section>
+    <div id="certificateModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="certificate-container" id="certificateContainer">
+                <div class="certificate-content">
+                    <img src="FullLogo_Transparent_NoBuffer.png" alt="Company Logo" class="logo">
+                    <h1>Certificate of Completion</h1>
+                    <p class="statement">This document proudly attests that</p>
+                    <p class="name" id="recipientName"></p>
+                    <p>has successfully completed all requirements for the intensive program in</p>
+                    <h2><span id="assessmentName"></span></h2>
+                    <p>Demonstrating unwavering dedication and comprehensive mastery of the curriculum.</p>
+                    <div class="assessment-details">
+                        <div class="detail-item">
+                            <span>Date of Completion:</span>
+                            <strong id="completionDate"></strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Issued By:</span>
+                            <strong>Global Professional Development Center</strong>
+                        </div>
+                    </div>
+                    <div class="signature-section">
+                        <div class="signature-block">
+                            <div class="signature"></div>
+                            <p class="signatory-name">Dr. Anya Sharma</p>
+                            <p class="signatory-title">Director, Program Operations</p>
+                        </div>
+                        <div class="signature-block">
+                            <div class="signature"></div>
+                            <p class="signatory-name">Date of Issue</p>
+                            <p class="signatory-title" id="issueDate"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="downloadCertificateButton">Download Certificate</button>
+        </div>
+    </div>
+    <div id="quizModal" class="modal">
+        <div class="modal-content-quiz">
+            <header class="quiz-modal-header">
+                <span class="header-title">Online Tech Quiz</span>
+                <div class="header-right">
+                    <span id="quizTimer">00:00</span>
+                    <button class="theme-button" id="quizThemeButton"><i class="fas fa-moon" id="quiz-theme-icon"></i></button>
+                </div>
+                <span class="close-button" id="closeQuizModal">&times;</span>
+            </header>
+            <div class="quiz-main-content-area">
+                <div class="quiz-container-modal">
+                    <div class="quiz-navigation-modal">
+                        <div class="active">Problem Statement & Options</div>
+                        <div id="quiz-section-title-modal">Section</div>
+                    </div>
+                    <div class="question-section-modal">
+                        <div class="problem-statement-modal">
+                            <h3>Question:</h3>
+                            <p class="quiz-question-text"></p>
+                        </div>
+                        <div class="options-section-modal">
+                            <h3>Options:</h3>
+                            <div class="quiz-options-list"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-sidebar-modal">
+                    <h3>Question Pallet</h3>
+                    <div class="quiz-question-grid" id="quizQuestionGrid"></div>
+                    <div class="legends">
+                        <h3>Legends</h3>
+                        <div class="legend-item"><div class="legend-box answered"></div><span><span id="answeredCount">0</span> Answered</span></div>
+                        <div class="legend-item"><div class="legend-box not-answered"></div><span><span id="notAnsweredCount">0</span> Not Answered</span></div>
+                        <div class="legend-item"><div class="legend-box marked"></div><span><span id="markedCount">0</span> Marked for Review</span></div>
+                        <div class="legend-item"><div class="legend-box not-visited"></div><span><span id="notVisitedCount">0</span> Not Visited</span></div>
+                    </div>
+                    <button class="submit-close-button" id="quizSubmitQuizButton">Submit & Close</button>
+                </div>
+            </div>
+            <footer class="quiz-modal-footer">
+                <div class="nav-buttons">
+                    <button class="secondary" id="quizMarkAndNextButton">Mark & Next</button>
+                    <button class="secondary" id="quizPreviousButton">Previous</button>
+                    <button class="primary" id="quizSaveNextButton">Save & Next</button>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginWrapper = document.querySelector('.login-wrapper');
+            const dashboardWrapper = document.querySelector('.dashboard-wrapper');
+            const body = document.body;
+            const signupLink = document.getElementById('signup-link');
+            const loginLink = document.getElementById('login-link');
+            const formWrapper = document.querySelector('.form-wrapper');
+            const inputElements = document.querySelectorAll('.input-group input');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+
+            function showLoginPage() {
+                body.classList.add('login-page-active');
+                body.classList.remove('assessment-flow-active'); // Ensure assessment flow is deactivated
+                body.classList.remove('quiz-active'); // Ensure actual quiz is deactivated
+                loginWrapper.style.display = 'flex';
+                dashboardWrapper.style.display = 'none';
+                document.querySelectorAll('.page-content-assessment').forEach(p => p.classList.remove('active-page'));
+                quizModal.style.display = 'none';
+            }
+
+            function showDashboardPage() {
+                body.classList.remove('login-page-active');
+                body.classList.remove('assessment-flow-active'); // Ensure assessment flow is deactivated
+                body.classList.remove('quiz-active'); // Ensure actual quiz is deactivated
+                loginWrapper.style.display = 'none';
+                dashboardWrapper.style.display = 'block';
+                initializeDashboard();
+                document.querySelectorAll('.page-content-assessment').forEach(p => p.classList.remove('active-page'));
+                quizModal.style.display = 'none';
+            }
+
+            signupLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                formWrapper.classList.add('show-signup');
+            });
+            loginLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                formWrapper.classList.remove('show-signup');
+            });
+            inputElements.forEach(input => {
+                if (input.value !== '') {
+                    input.parentNode.querySelector('label').classList.add('active');
+                }
+                input.addEventListener('focus', () => {
+                    input.parentNode.querySelector('label').classList.add('active');
+                });
+                input.addEventListener('blur', () => {
+                    if (input.value === '') {
+                        input.parentNode.querySelector('label').classList.remove('active');
+                    }
+                });
+            });
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const usernameInput = document.getElementById('login-username');
+                const username = usernameInput.value;
+                if (username) {
+                    localStorage.setItem('loggedInUser', username);
+                    document.getElementById('username').textContent = username;
+                }
+                showDashboardPage();
+            });
+            signupForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const usernameInput = document.getElementById('signup-username');
+                const username = usernameInput.value;
+                 if (username) {
+                    localStorage.setItem('loggedInUser', username);
+                    document.getElementById('username').textContent = username;
+                }
+                showDashboardPage();
+            });
+
+            function initializeDashboard() {
+                const sidebar = document.getElementById('sidebar');
+                const menuIcon = document.getElementById('menuIcon');
+                const currentPageTitle = document.getElementById('current-page-title');
+                const quizModal = document.getElementById('quizModal');
+                const closeQuizModal = document.getElementById('closeQuizModal');
+                const quizTopicTitleModal = document.getElementById('quiz-section-title-modal');
+                const quizQuestionText = quizModal.querySelector('.quiz-question-text');
+                const quizOptionsList = quizModal.querySelector('.quiz-options-list');
+                const quizQuestionGrid = document.getElementById('quizQuestionGrid');
+                const quizTimer = document.getElementById('quizTimer');
+                const quizThemeButton = document.getElementById('quizThemeButton');
+                const quizThemeIcon = document.getElementById('quiz-theme-icon');
+                const quizSubmitQuizButton = document.getElementById('quizSubmitQuizButton');
+                const quizMarkAndNextButton = document.getElementById('quizMarkAndNextButton');
+                const quizPreviousButton = document.getElementById('quizPreviousButton');
+                const quizSaveNextButton = document.getElementById('quizSaveNextButton');
+                let currentQuizQuestions = [];
+                let currentQuestionIndex = 0;
+                let correctAnswersCount = 0;
+                let currentQuizTitle = '';
+                let questionStates = [];
+                let userAnswers = [];
+                let timerInterval;
+
+                if (menuIcon) {
+                    menuIcon.addEventListener('click', () => {
+                        sidebar.classList.toggle('active');
+                    });
+                }
+                const sidebarLinks = document.querySelectorAll('.sidebar-nav ul li a');
+                sidebarLinks.forEach(link => {
+                    link.addEventListener('click', function(event) {
+                        if (sidebar.classList.contains('active') && window.innerWidth <= 768) {
+                            sidebar.classList.remove('active');
+                        }
+                        event.preventDefault();
+                        switchPage(this);
+                    });
+                });
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth > 768) {
+                        sidebar.classList.remove('active');
+                    }
+                });
+
+                function updateQuizScoreStyle() {
+                    const quizScores = document.querySelectorAll('.quiz-score');
+                    quizScores.forEach(scoreElement => {
+                        if (scoreElement.textContent.includes('%')) {
+                            const scoreText = scoreElement.textContent;
+                            const score = parseInt(scoreText.replace('%', ''));
+                            if (!isNaN(score)) {
+                                let scaleFactor = 1.0;
+                                let fontSize = '1.8em';
+                                if (score <= 50) {
+                                    scaleFactor = 0.9;
+                                    fontSize = '1.6em';
+                                } else if (score > 50 && score <= 75) {
+                                    scaleFactor = 1.0;
+                                    fontSize = '1.8em';
+                                } else {
+                                    scaleFactor = 1.1;
+                                    fontSize = '2em';
+                                }
+                                scoreElement.style.transform = `scale(${scaleFactor})`;
+                                scoreElement.style.fontSize = fontSize;
+                            }
+                        }
+                    });
+                }
+
+                async function generateAndDownloadCertificate(username, quizTitle) {
+                    const issuedDateText = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                    document.getElementById('recipientName').textContent = username;
+                    document.getElementById('assessmentName').textContent = quizTitle;
+                    document.getElementById('completionDate').textContent = issuedDateText;
+                    document.getElementById('issueDate').textContent = issuedDateText;
+                    const certificateModal = document.getElementById('certificateModal');
+                    const downloadButton = document.getElementById('downloadCertificateButton');
+                    const closeButton = certificateModal.querySelector('.close-button');
+                    certificateModal.style.display = 'flex';
+                    closeButton.onclick = function() {
+                        certificateModal.style.display = 'none';
+                    };
+                    window.onclick = function(event) {
+                        if (event.target == certificateModal) {
+                            certificateModal.style.display = 'none';
+                        }
+                    };
+                    downloadButton.onclick = async function() {
+                        const tempCertContainer = document.getElementById('certificateContainer');
+                        const link1 = document.createElement('link');
+                        link1.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap';
+                        link1.rel = 'stylesheet';
+                        document.head.appendChild(link1);
+                        const link2 = document.createElement('link');
+                        link2.href = 'https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap';
+                        link2.rel = 'stylesheet';
+                        document.head.appendChild(link2);
+                        const link3 = document.createElement('link');
+                        link3.href = 'https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Lora:wght@400;700&display=swap';
+                        link3.rel = 'stylesheet';
+                        document.head.appendChild(link3);
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                        const { jsPDF } = window.jspdf;
+                        try {
+                            const canvas = await html2canvas(tempCertContainer, { scale: 2 });
+                            const imgData = canvas.toDataURL('image/png');
+                            const pdf = new jsPDF('l', 'mm', 'a4');
+                            const imgWidth = pdf.internal.pageSize.getWidth() - 20;
+                            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                            const xOffset = 10;
+                            const yOffset = (pdf.internal.pageSize.getHeight() - imgHeight) / 2;
+                            pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
+                            pdf.save(`SkillSync_Certificate_${quizTitle.replace(/\s/g, '_')}_${username.replace(/\s/g, '_')}.pdf`);
+                        } catch (error) {
+                            console.error("Error generating PDF:", error);
+                        } finally {
+                        }
+                    };
+                }
+
+                const dashboardPageContents = document.querySelectorAll('.main-content .page-content');
+                const assessmentFlowPages = document.querySelectorAll('.page-content-assessment');
+                const dashboardHeader = document.querySelector('.main-content .header');
+
+                function showPage(pageId, linkTitle) {
+                    // Hide all dashboard page contents
+                    dashboardPageContents.forEach(page => {
+                        page.classList.remove('active-page');
+                    });
+                    // Hide all assessment flow pages
+                    assessmentFlowPages.forEach(page => {
+                        page.classList.remove('active-page');
+                    });
+
+                    // Manage assessment flow active class on body
+                    const isAssessmentPage = ['pre-assessment-intro-page', 'system-check-page'].includes(pageId);
+                    if (isAssessmentPage) {
+                        body.classList.add('assessment-flow-active');
+                    } else {
+                        body.classList.remove('assessment-flow-active');
+                    }
+                    
+                    // Manage quizModal visibility
+                    if (pageId === 'quiz-modal-active') { // Custom pageId to indicate quiz modal should be shown
+                        body.classList.add('quiz-active');
+                    } else {
+                        body.classList.remove('quiz-active');
+                    }
+
+                    // Show the target page
+                    const targetPage = document.getElementById(pageId);
+                    if (targetPage) {
+                        targetPage.classList.add('active-page');
+                    }
+
+                    // Adjust dashboard header visibility based on page type
+                    if (isAssessmentPage || pageId === 'quiz-modal-active') {
+                        dashboardHeader.style.display = 'none';
+                    } else {
+                        dashboardHeader.style.display = 'flex';
+                    }
+
+                    if (currentPageTitle) {
+                        currentPageTitle.textContent = linkTitle || 'Assessment';
+                    }
+                    
+                    if (pageId === 'certifications-page') {
+                        renderCertificationsPage();
+                    } else if (pageId === 'achievements-page') {
+                        renderAchievementsPage();
+                    }
+                }
+
+                function switchPage(clickedLink) {
+                    const targetPageId = clickedLink.dataset.target;
+                    const linkText = clickedLink.textContent.trim();
+                    const linkTitle = linkText.replace(/Dashboard|Public Resume|Assessments|Training|Billing|Preferences|Analytics|Team|Messages|Notifications|Schedule|Resources|Certifications|Achievements|FAQ|Help Center|Send Feedback/i, (match) => {
+                        return match.charAt(0).toUpperCase() + match.slice(1).toLowerCase();
+                    }).replace(/^(fas|far|fal|fad|fab)\s+fa-[a-z-]+/i, '').trim();
+
+                    showPage(targetPageId, linkTitle);
+
+                    document.querySelectorAll('.sidebar-nav ul li a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    clickedLink.classList.add('active');
+                }
+
+                function getCurrentUsername() {
+                    return document.getElementById('username').textContent;
+                }
+
+                function saveCertificate(username, quizTitle, score) {
+                    const certificatesKey = `certificates_${username}`;
+                    let certificates = JSON.parse(localStorage.getItem(certificatesKey)) || [];
+                    const dateCompleted = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                    const existingCertIndex = certificates.findIndex(cert => cert.quizTitle === quizTitle);
+                    if (existingCertIndex > -1) {
+                        certificates[existingCertIndex] = { quizTitle, dateCompleted, score };
+                    } else {
+                        certificates.push({ quizTitle, dateCompleted, score });
+                    }
+                    localStorage.setItem(certificatesKey, JSON.stringify(certificates));
+                }
+
+                function loadCertificates(username) {
+                    const certificatesKey = `certificates_${username}`;
+                    return JSON.parse(localStorage.getItem(certificatesKey)) || [];
+                }
+
+                function renderCertificationsPage() {
+                    const certificationsListDiv = document.getElementById('certifications-list');
+                    certificationsListDiv.innerHTML = '';
+                    const username = getCurrentUsername();
+                    const userCertificates = loadCertificates(username);
+                    if (userCertificates.length === 0) {
+                        certificationsListDiv.innerHTML = `<p>You haven't earned any certifications yet. Complete quizzes to see them here!</p>`;
+                        return;
+                    }
+                    userCertificates.forEach(cert => {
+                        const certCard = document.createElement('div');
+                        certCard.classList.add('certification-card');
+                        certCard.innerHTML = `
+                            <h4>${cert.quizTitle}</h4>
+                            <p>Date Completed: ${cert.dateCompleted}</p>
+                            <p>Score: <strong>${cert.score}%</strong></p>
+                            <button class="download-btn" data-quiz-title="${cert.quizTitle}">Download Certificate</button>
+                        `;
+                        certificationsListDiv.appendChild(certCard);
+                        certCard.querySelector('.download-btn').addEventListener('click', function() {
+                            generateAndDownloadCertificate(username, this.dataset.quizTitle);
+                        });
+                    });
+                }
+
+                function renderAchievementsPage() {
+                    const achievementsListDiv = document.getElementById('achievements-list');
+                    achievementsListDiv.innerHTML = '';
+                    const username = getCurrentUsername();
+                    const userCertificates = loadCertificates(username);
+                    if (userCertificates.length === 0) {
+                        const noAchievementsMsg = document.createElement('div');
+                        noAchievementsMsg.style.cssText = "background-color: var(--white-bg); padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px var(--shadow-medium); grid-column: 1 / -1; text-align: center;";
+                        noAchievementsMsg.innerHTML = `<p>No achievements unlocked yet! Complete quizzes to earn trophies.</p>`;
+                        achievementsListDiv.appendChild(noAchievementsMsg);
+                        return;
+                    }
+                    userCertificates.forEach(cert => {
+                        let trophyClass = 'trophy-grey';
+                        let trophyIcon = 'fa-medal';
+                        let achievementText = 'Keep trying!';
+                        if (cert.score >= 90) {
+                            trophyClass = 'trophy-green';
+                            trophyIcon = 'fa-trophy';
+                            achievementText = 'Excellent Achievement!';
+                        } else if (cert.score >= 70) {
+                            trophyClass = 'trophy-blue';
+                            trophyIcon = 'fa-award';
+                            achievementText = 'Great Progress!';
+                        } else if (cert.score >= 50) {
+                            trophyClass = 'trophy-yellow';
+                            trophyIcon = 'fa-star';
+                            achievementText = 'Good Effort!';
+                        }
+                        const achievementCard = document.createElement('div');
+                        achievementCard.classList.add('achievement-card');
+                        achievementCard.innerHTML = `
+                            <i class="fas ${trophyIcon} ${trophyClass}"></i>
+                            <h5>${cert.quizTitle}</h5>
+                            <p>${achievementText} (${cert.score}%)</p>
+                            <p>${cert.dateCompleted}</p>
+                        `;
+                        achievementsListDiv.appendChild(achievementCard);
+                    });
+                }
+                
+                updateQuizScoreStyle();
+
+                const techSkillPills = document.querySelectorAll('.tech-skill-pill');
+                techSkillPills.forEach(pill => {
+                    pill.addEventListener('click', function() {
+                        techSkillPills.forEach(item => item.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                });
+                const usernameSpan = document.getElementById('username');
+                const loggedInUser = localStorage.getItem('loggedInUser');
+                if (loggedInUser && usernameSpan) {
+                    usernameSpan.textContent = loggedInUser;
+                } else if (usernameSpan) {
+                    usernameSpan.textContent = 'Guest User';
+                }
+
+                const allQuizQuestions = {
+                    "PHP Quiz": [
+                        { question: "How do you declare a variable in PHP?", options: ["var myVar", "$myVar", "let myVar", "const myVar"], correctAnswer: "$myVar" },
+                        { question: "Which superglobal holds form data from a POST method?", options: ["$_GET", "$_POST", "$_SERVER", "$_SESSION"], correctAnswer: "$_POST" },
+                        { question: "What does PHP stand for?", options: ["Personal Home Page", "Private Home Page", "PHP: Hypertext Preprocessor", "Programmed Hypertext Processor"], correctAnswer: "PHP: Hypertext Preprocessor" }
+                    ],
+                    "Aptitude Quiz": [
+                        { question: "A train 120m long passes a pole in 6 seconds. What is its speed in km/hr?", options: ["60 km/hr", "72 km/hr", "80 km/hr", "90 km/hr"], correctAnswer: "72 km/hr" },
+                        { question: "If a car travels at 60 km/h, how long will it take to travel 180 km?", options: ["1 hour", "2 hours", "3 hours", "4 hours"], correctAnswer: "3 hours" },
+                        { question: "What is 15% of 200?", options: ["15", "20", "30", "40"], correctAnswer: "30" },
+                        { question: "Which number comes next in the sequence: 2, 4, 8, 16, ...?", options: ["20", "24", "32", "64"], correctAnswer: "32" }
+                    ],
+                    "Go-lang Quiz": [
+                        { question: "Which keyword is used to declare a variable in Go?", options: ["var", "let", "const", "new"], correctAnswer: "var" },
+                        { question: "What is the Go-lang keyword for a function?", options: ["func", "function", "def", "fn"], correctAnswer: "func" },
+                        { question: "What is the entry point of a Go program?", options: ["func start()", "func main()", "func init()", "func run()"], correctAnswer: "func main()" }
+                    ],
+                    ".Net Quiz": [
+                        { question: "Which language is primarily used for .NET development?", options: ["Java", "Python", "C#", "Ruby"], correctAnswer: "C#" },
+                        { question: "What is the base class for all .NET classes?", options: ["Object", "System.Object", "BaseObject", "Root"], correctAnswer: "System.Object" },
+                        { question: ".NET is primarily developed by?", options: ["Google", "Facebook", "Microsoft", "Oracle"], correctAnswer: "Microsoft" }
+                    ],
+                    "Devops Quiz": [
+                        { question: "Which tool is commonly used for continuous integration?", options: ["Jira", "Jenkins", "Slack", "Trello"], correctAnswer: "Jenkins" },
+                        { question: "What does 'CI/CD' stand for in DevOps?", options: ["Continuous Integration / Continuous Delivery", "Code Integration / Code Deployment", "Client Interface / Client Development", "Custom Installation / Custom Deployment"], correctAnswer: "Continuous Integration / Continuous Delivery" },
+                        { question: "Which tool is used for containerization?", options: ["Jenkins", "Git", "Docker", "Ansible"], correctAnswer: "Docker" }
+                    ],
+                    "Python Quiz": [
+                        { question: "Which of the following is a correct way to comment in Python?", options: ["// This is a comment", "/* This is a comment */", "# This is a comment", "-- This is a comment"], correctAnswer: "# This is a comment" },
+                        { question: "Which data type is used to store a sequence of characters in Python?", options: ["int", "float", "list", "str"], correctAnswer: "str" },
+                        { question: "How do you define a function in Python?", options: ["function myFunction():", "def myFunction():", "create myFunction():", "func myFunction():"], correctAnswer: "def myFunction():" },
+                        { question: "What is the output of `type([])`?", options: ["<class 'array'>", "<class 'list'>", "<class 'tuple'>", "<class 'dict'>"], correctAnswer: "<class 'list'>" }
+                    ],
+                    "Java Quiz": [
+                        { question: "Which keyword is used to define a class in Java?", options: ["class", "Class", "define", "struct"], correctAnswer: "class" },
+                        { question: "What is the main method signature in Java?", options: ["public static void main(String[] args)", "void main()", "public main(String args[])", "static void main(String args)"], correctAnswer: "public static void main(String[] args)" },
+                        { question: "Which keyword is used to prevent inheritance in Java?", options: ["static", "private", "const", "final"], correctAnswer: "final" }
+                    ],
+                    "C++ Quiz": [
+                        { question: "What is the correct syntax to include a header file in C++?", options: ["#include <header>", "<header.h>", "include \"header\"", "#include 'header'"], correctAnswer: "#include <header>" },
+                        { question: "Which operator is used for dynamic memory allocation in C++?", options: ["malloc", "new", "create", "alloc"], correctAnswer: "new" }
+                    ],
+                    "Ruby Quiz": [
+                        { question: "What is the file extension for Ruby files?", options: [".rb", ".py", ".java", ".js"], correctAnswer: ".rb" },
+                        { question: "In Ruby, what does 'puts' do?", options: ["Reads input", "Prints output with a newline", "Defines a variable", "Performs a mathematical operation"], correctAnswer: "Prints output with a newline" },
+                        { question: "In Ruby, everything is an...", options: ["Object", "Function", "Class", "Variable"], correctAnswer: "Object" }
+                    ],
+                    "Swift Quiz": [
+                        { question: "Which company developed Swift?", options: ["Google", "Microsoft", "Apple", "IBM"], correctAnswer: "Apple" },
+                        { question: "Which keyword is used to define a constant in Swift?", options: ["var", "let", "const", "fixed"], correctAnswer: "let" },
+                        { question: "Swift was developed by which company?", options: ["Google", "Microsoft", "Apple", "Facebook"], correctAnswer: "Apple" }
+                    ],
+                    "Kotlin Quiz": [
+                        { question: "Kotlin runs on which virtual machine?", options: ["JVM", "CLR", "BEAM", "Node.js"], correctAnswer: "JVM" },
+                        { question: "Which keyword is used to declare a mutable variable in Kotlin?", options: ["val", "var", "const", "let"], correctAnswer: "var" },
+                        { question: "Kotlin is fully interoperable with which language?", options: ["C++", "Python", "Swift", "Java"], correctAnswer: "Java" }
+                    ],
+                    "Rust Quiz": [
+                        { question: "What is Rust primarily known for?", options: ["Web development", "Game development", "System programming and memory safety", "Data analysis"], correctAnswer: "System programming and memory safety" },
+                        { question: "What is the Rust package manager and build tool?", options: ["npm", "pip", "cargo", "go mod"], correctAnswer: "cargo" },
+                        { question: "Rust's ownership system helps prevent what type of errors?", options: ["Syntax errors", "Memory safety errors", "Logical errors", "Network errors"], correctAnswer: "Memory safety errors" }
+                    ],
+                    "TypeScript Quiz": [
+                        { question: "TypeScript is a superset of which language?", options: ["Java", "Python", "JavaScript", "C#"], correctAnswer: "JavaScript" },
+                        { question: "Which keyword is used to specify the type of a variable in TypeScript?", options: ["type", "let", "var", ":"], correctAnswer: ":" }
+                    ],
+                    "SQL Quiz": [
+                        { question: "Which SQL keyword is used to extract only unique values?", options: ["UNIQUE", "DISTINCT", "SINGLE", "INDIVIDUAL"], correctAnswer: "DISTINCT" },
+                        { question: "Which SQL command is used to retrieve data from a database?", options: ["UPDATE", "INSERT", "DELETE", "SELECT"], correctAnswer: "SELECT" }
+                    ],
+                    "NoSQL Quiz": [
+                        { question: "Which type of database is MongoDB?", options: ["Relational", "Document", "Graph", "Column-family"], correctAnswer: "Document" },
+                        { question: "NoSQL databases are typically used for which type of data?", options: ["Structured", "Unstructured", "Tabular", "Fixed-schema"], correctAnswer: "Unstructured" },
+                        { question: "Which is an example of a NoSQL database?", options: ["MySQL", "PostgreSQL", "MongoDB", "SQL Server"], correctAnswer: "MongoDB" }
+                    ],
+                    "Cloud Computing Quiz": [
+                        { question: "Which of these is a common Cloud Service Model?", options: ["HTML", "CSS", "IaaS", "USB"], correctAnswer: "IaaS" },
+                        { question: "Which cloud deployment model is exclusively for a single organization?", options: ["Public Cloud", "Private Cloud", "Hybrid Cloud", "Community Cloud"], correctAnswer: "Private Cloud" },
+                        { question: "What does 'SaaS' stand for?", options: ["Software as a Service", "Security as a Service", "System as a Service", "Storage as a Service"], correctAnswer: "Software as a Service" }
+                    ],
+                    "Machine Learning Quiz": [
+                        { question: "What is supervised learning?", options: ["Learning with unlabeled data", "Learning with labeled data", "Learning by trial and error", "Learning from interactions"], correctAnswer: "Learning with labeled data" },
+                        { question: "Which algorithm is commonly used for classification tasks?", options: ["Linear Regression", "K-Means", "Decision Tree", "Principal Component Analysis"], correctAnswer: "Decision Tree" },
+                        { question: "Training a model on labeled data is an example of?", options: ["Unsupervised learning", "Reinforcement learning", "Supervised learning", "Deep learning"], correctAnswer: "Supervised learning" }
+                    ],
+                    "Data Science Quiz": [
+                        { question: "Which of these is a common step in a data science project?", options: ["Data visualization", "Data cooking", "Data singing", "Data dancing"], correctAnswer: "Data visualization" },
+                        { question: "Which programming language is widely used for data science?", options: ["C++", "Java", "Python", "Ruby"], correctAnswer: "Python" },
+                        { question: "Which library is commonly used for data manipulation in Python?", options: ["NumPy", "Pandas", "Matplotlib", "TensorFlow"], correctAnswer: "Pandas" }
+                    ],
+                    "Cybersecurity Quiz": [
+                        { question: "What is phishing?", options: ["A type of malware", "An attempt to trick users into revealing sensitive information", "A network attack", "A form of encryption"], correctAnswer: "An attempt to trick users into revealing sensitive information" },
+                        { question: "Which of the following is a symmetric encryption algorithm?", options: ["RSA", "AES", "ECC", "Diffie-Hellman"], correctAnswer: "AES" },
+                        { question: "What is 'phishing'?", options: ["A type of firewall", "A social engineering attack", "A network protocol", "A hardware vulnerability"], correctAnswer: "A social engineering attack" }
+                    ],
+                    "Blockchain Quiz": [
+                        { question: "What is a blockchain?", options: ["A centralized database", "A distributed ledger", "A type of cryptocurrency", "A mining algorithm"], correctAnswer: "A distributed ledger" },
+                        { question: "What is a 'block' in a blockchain?", options: ["A programming function", "A container for data records", "A network node", "A type of smart contract"], correctAnswer: "A container for data records" },
+                        { question: "Bitcoin is based on which technology?", options: ["AI", "IoT", "Cloud Computing", "Blockchain"], correctAnswer: "Blockchain" }
+                    ],
+                    "UI Figma Quiz": [
+                        { question: "Which tool is primarily used for UI/UX design and prototyping?", options: ["Photoshop", "Figma", "Illustrator", "InDesign"], correctAnswer: "Figma" },
+                        { question: "What is a common feature in Figma for collaborative design?", options: ["Version Control", "Real-time Collaboration", "Offline Editing", "Single User Mode"], correctAnswer: "Real-time Collaboration" },
+                        { question: "Which term describes a reusable UI element in Figma?", options: ["Layer", "Frame", "Component", "Group"], correctAnswer: "Component" }
+                    ],
+                    "Intermediate Web Design Quiz": [
+                        { question: "Which CSS property is used for making elements responsive based on screen size?", options: ["font-size", "width", "media queries", "color"], correctAnswer: "media queries" },
+                        { question: "What does HTML stand for?", options: ["Hyper Text Markup Language", "High-level Text Machine Language", "Hyperlink and Text Markup Language", "Home Tool Markup Language"], correctAnswer: "Hyper Text Markup Language" },
+                        { question: "Which JavaScript array method executes a provided function once for each array element?", options: ["map()", "filter()", "forEach()", "reduce()"], correctAnswer: "forEach()" }
+                    ],
+                    "Responsive Design Quiz": [
+                        { question: "What is the primary goal of responsive web design?", options: ["Faster loading times", "Consistent layout across devices", "Better SEO ranking", "Enhanced animation effects"], correctAnswer: "Consistent layout across devices" },
+                        { question: "Which unit is often recommended for responsive font sizing?", options: ["px", "pt", "em", "cm"], correctAnswer: "em" },
+                        { question: "What is a 'viewport' in web design?", options: ["The visible area of a web page", "A type of CSS framework", "A JavaScript library", "A server-side rendering technique"], correctAnswer: "The visible area of a web page" }
+                    ]
+                };
+                const genericQuizQuestions = [
+                    {
+                        question: "What is the capital of France?",
+                        options: ["Berlin", "Madrid", "Paris", "Rome"],
+                        correctAnswer: "Paris"
+                    },
+                    {
+                        question: "Which planet is known as the Red Planet?",
+                        options: ["Earth", "Mars", "Jupiter", "Venus"],
+                        correctAnswer: "Mars"
+                    },
+                    {
+                        question: "What is the largest ocean on Earth?",
+                        options: ["Atlantic", "Indian", "Arctic", "Pacific"],
+                        correctAnswer: "Pacific"
+                    },
+                    {
+                        question: "What is 7 multiplied by 8?",
+                        options: ["49", "56", "64", "72"],
+                        correctAnswer: "56"
+                    },
+                     {
+                        question: "What is the chemical symbol for water?",
+                        options: ["O2", "H2O", "CO2", "N2"],
+                        correctAnswer: "H2O"
+                    },
+                ];
+
+                function displayMessageBox(message, isConfirm = false, callback) {
+                    const overlay = document.createElement('div');
+                    overlay.className = 'message-box-overlay';
+                    const box = document.createElement('div');
+                    box.className = 'message-box';
+                    let buttonsHtml = '<button class="confirm-yes">OK</button>';
+                    if (isConfirm) {
+                        buttonsHtml = '<button class="confirm-yes">Yes</button><button class="confirm-no">No</button>';
+                    }
+                    box.innerHTML = `<p>${message}</p>${buttonsHtml}`;
+                    overlay.appendChild(box);
+                    document.body.appendChild(overlay);
+                    setTimeout(() => overlay.classList.add('show'), 10);
+                    overlay.querySelector('.confirm-yes').onclick = () => {
+                        overlay.remove();
+                        if (isConfirm && callback) callback(true);
+                    };
+                    if (isConfirm) {
+                         overlay.querySelector('.confirm-no').onclick = () => {
+                            overlay.remove();
+                            if (callback) callback(false);
+                        };
+                    }
+                }
+
+                function toggleQuizTheme() {
+                    const modalContent = quizModal.querySelector('.modal-content-quiz');
+                    modalContent.classList.toggle('dark-theme');
+                    quizThemeIcon.className = modalContent.classList.contains('dark-theme') ? 'fas fa-sun' : 'fas fa-moon';
+                }
+                quizThemeButton.addEventListener('click', toggleQuizTheme);
+
+                function setupTimer(duration) {
+                    clearInterval(timerInterval);
+                    let time = duration;
+                    timerInterval = setInterval(() => {
+                        const mins = Math.floor(time / 60).toString().padStart(2, '0');
+                        const secs = (time % 60).toString().padStart(2, '0');
+                        quizTimer.textContent = `${mins}:${secs}`;
+                        time--;
+                        if (time < 0) {
+                            clearInterval(timerInterval);
+                            displayMessageBox("Time's up! Submitting your quiz.");
+                            submitQuiz();
+                        }
+                    }, 1000);
+                }
+
+                function startPreAssessmentFlow(quizTitle) {
+                    currentQuizTitle = quizTitle;
+                    showPage('pre-assessment-intro-page', 'Skills Assessment');
+                }
+
+                document.getElementById('start-assessment-intro-button').addEventListener('click', () => {
+                    showPage('system-check-page', 'System Check');
+                });
+
+                document.getElementById('run-system-check-button').addEventListener('click', async () => {
+                    const checkInternet = document.getElementById('check-internet');
+                    const checkBrowser = document.getElementById('check-browser');
+                    checkInternet.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+                    checkBrowser.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+                    let allPassed = true;
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    const internetPassed = Math.random() > 0.1;
+                    checkInternet.innerHTML = internetPassed ? '<i class="fas fa-check-circle"></i> Passed' : '<i class="fas fa-times-circle"></i> Failed';
+                    checkInternet.className = 'check-status ' + (internetPassed ? 'passed' : 'failed');
+                    if (!internetPassed) allPassed = false;
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    const browserPassed = Math.random() > 0.1;
+                    checkBrowser.innerHTML = browserPassed ? '<i class="fas fa-check-circle"></i> Passed' : '<i class="fas fa-times-circle"></i> Failed';
+                    checkBrowser.className = 'check-status ' + (browserPassed ? 'passed' : 'failed');
+                    if (!browserPassed) allPassed = false;
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    if (allPassed) {
+                        displayMessageBox('System checks passed! Starting your quiz.');
+                        startQuiz(currentQuizTitle);
+                    } else {
+                        displayMessageBox('One or more system checks failed. Please resolve the issues and try again.');
+                    }
+                });
+
+                function startQuiz(quizTitle) {
+                    const formattedQuizTitle = quizTitle.endsWith(' Quiz') ? quizTitle : `${quizTitle} Quiz`;
+                    currentQuizQuestions = allQuizQuestions[formattedQuizTitle] || genericQuizQuestions;
+                    currentQuestionIndex = 0;
+                    correctAnswersCount = 0;
+                    userAnswers = Array(currentQuizQuestions.length).fill(null);
+                    questionStates = Array(currentQuizQuestions.length).fill('not-visited');
+                    quizTopicTitleModal.textContent = quizTitle;
+                    quizOptionsList.querySelectorAll('.option').forEach(option => {
+                        option.classList.remove('selected', 'correct-answer', 'wrong-answer');
+                    });
+                    showPage('quiz-modal-active', quizTitle); // Activate quiz modal and set body.quiz-active
+                    setupTimer(currentQuizQuestions.length * 60);
+                    updateQuestionPallet();
+                    displayQuestion();
+                }
+
+                function displayQuestion() {
+                    quizSaveNextButton.disabled = false;
+                    quizMarkAndNextButton.disabled = false;
+                    quizPreviousButton.disabled = false;
+                    quizSubmitQuizButton.disabled = false;
+
+                    if (currentQuestionIndex === 0) {
+                        quizPreviousButton.disabled = true;
+                    }
+                    if (currentQuestionIndex === currentQuizQuestions.length - 1) {
+                        quizSaveNextButton.textContent = 'Submit';
+                        quizSaveNextButton.onclick = confirmSubmission;
+                        quizMarkAndNextButton.disabled = true;
+                    } else {
+                        quizSaveNextButton.textContent = 'Save & Next';
+                        quizSaveNextButton.onclick = handleSaveNext;
+                        quizMarkAndNextButton.disabled = false;
+                    }
+
+                    const qData = currentQuizQuestions[currentQuestionIndex];
+                    quizQuestionText.textContent = `Question ${currentQuestionIndex + 1}: ${qData.question}`;
+                    quizOptionsList.innerHTML = '';
+                    qData.options.forEach((opt, index) => {
+                        const optionDiv = document.createElement('div');
+                        optionDiv.className = 'option';
+                        const radioId = `quizOpt_${index}`;
+                        optionDiv.innerHTML = `<input type="radio" id="${radioId}" name="quizAnswer" value="${opt}"><label for="${radioId}">${opt}</label>`;
+                        quizOptionsList.appendChild(optionDiv);
+                        if(userAnswers[currentQuestionIndex] === opt) {
+                            optionDiv.classList.add('selected');
+                            optionDiv.querySelector('input').checked = true;
+                        }
+                        optionDiv.addEventListener('click', () => {
+                            quizOptionsList.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                            optionDiv.classList.add('selected');
+                            optionDiv.querySelector('input').checked = true;
+                        });
+                    });
+                    if (questionStates[currentQuestionIndex] === 'not-visited') {
+                         questionStates[currentQuestionIndex] = 'not-answered';
+                    }
+                    updateQuestionPallet();
+                }
+
+                function updateQuestionPallet() {
+                    quizQuestionGrid.innerHTML = '';
+                    currentQuizQuestions.forEach((_, i) => {
+                        const qNumDiv = document.createElement('div');
+                        qNumDiv.className = 'question-number';
+                        qNumDiv.textContent = i + 1;
+                        qNumDiv.classList.add(questionStates[i]);
+                        if (i === currentQuestionIndex) qNumDiv.classList.add('active-question');
+                        qNumDiv.onclick = () => {
+                            currentQuestionIndex = i;
+                            displayQuestion();
+                        };
+                        quizQuestionGrid.appendChild(qNumDiv);
+                    });
+                    updateLegendCounts();
+                }
+                
+                function updateLegendCounts() {
+                     document.getElementById('answeredCount').textContent = questionStates.filter(s => s === 'answered').length;
+                     document.getElementById('notAnsweredCount').textContent = questionStates.filter(s => s === 'not-answered').length;
+                     document.getElementById('markedCount').textContent = questionStates.filter(s => s === 'marked').length;
+                     document.getElementById('notVisitedCount').textContent = questionStates.filter(s => s === 'not-visited').length;
+                }
+
+                function handleSaveNext() {
+                    const selected = quizOptionsList.querySelector('input[name="quizAnswer"]:checked');
+                    if(selected) {
+                         userAnswers[currentQuestionIndex] = selected.value;
+                         questionStates[currentQuestionIndex] = 'answered';
+                    }
+                    if (currentQuestionIndex < currentQuizQuestions.length - 1) {
+                        currentQuestionIndex++;
+                        displayQuestion();
+                    } else {
+                        displayMessageBox('You are at the last question.');
+                    }
+                }
+                
+                function handlePrevious() {
+                     if (currentQuestionIndex > 0) {
+                        currentQuestionIndex--;
+                        displayQuestion();
+                    }
+                }
+
+                function handleMarkAndNext() {
+                    if (questionStates[currentQuestionIndex] !== 'answered') {
+                         questionStates[currentQuestionIndex] = 'marked';
+                    }
+                    const selected = quizOptionsList.querySelector('input[name="quizAnswer"]:checked');
+                    if (selected) {
+                        userAnswers[currentQuestionIndex] = selected.value;
+                    }
+
+                    if (currentQuestionIndex < currentQuizQuestions.length - 1) {
+                        currentQuestionIndex++;
+                        displayQuestion();
+                    } else {
+                         updateQuestionPallet();
+                         displayMessageBox('You are at the last question.');
+                    }
+                }
+                
+                function confirmSubmission() {
+                    const unanswered = questionStates.filter(s => s === 'not-answered' || s === 'not-visited').length;
+                    const message = unanswered > 0 ? `You have ${unanswered} unanswered questions. Are you sure you want to submit?` : 'Are you sure you want to submit the quiz?';
+                    displayMessageBox(message, true, (confirmed) => {
+                        if (confirmed) submitQuiz();
+                    });
+                }
+                
+                function submitQuiz() {
+                    clearInterval(timerInterval);
+                    let score = 0;
+                    userAnswers.forEach((answer, index) => {
+                        if (currentQuizQuestions[index] && answer === currentQuizQuestions[index].correctAnswer) {
+                            score++;
+                        }
+                    });
+                    const total = currentQuizQuestions.length;
+                    const finalScorePercentage = (total > 0) ? (score / total) * 100 : 0;
+                    
+                    if (finalScorePercentage >= 70) {
+                        displayMessageBox(`Congratulations! You passed the assessment with ${finalScorePercentage.toFixed(0)}%. You can now download your new certificate from the dashboard.`);
+                    } else {
+                        displayMessageBox(`Your score: ${finalScorePercentage.toFixed(0)}%. You did not pass this time. Please review the material and try again.`);
+                    }
+                    
+                    const quizCardElement = document.querySelector(`.quiz-card[data-quiz-title="${currentQuizTitle}"]`);
+                    if (quizCardElement) {
+                        const scoreDisplay = quizCardElement.querySelector('.quiz-score');
+                        if (scoreDisplay) {
+                             scoreDisplay.textContent = `${finalScorePercentage.toFixed(0)}%`;
+                        }
+                        quizCardElement.dataset.quizScore = finalScorePercentage.toFixed(0);
+                        const startBtn = quizCardElement.querySelector('.start-button');
+                        const viewCertBtn = quizCardElement.querySelector('.view-certificate-button');
+                        if (finalScorePercentage >= 70) {
+                            startBtn.textContent = 'Completed';
+                            startBtn.disabled = true;
+                            if (viewCertBtn) {
+                                viewCertBtn.style.display = 'inline-block';
+                            }
+                            saveCertificate(getCurrentUsername(), currentQuizTitle, finalScorePercentage.toFixed(0));
+                            renderCertificationsPage();
+                            renderAchievementsPage();
+                        } else {
+                            startBtn.textContent = 'Try Again';
+                            startBtn.disabled = false;
+                            if (viewCertBtn) {
+                                viewCertBtn.style.display = 'none';
+                            }
+                        }
+                        updateQuizScoreStyle();
+                    }
+
+                    setTimeout(() => {
+                        showDashboardPage();
+                    }, 3000);
+                }
+
+                quizMarkAndNextButton.addEventListener('click', handleMarkAndNext);
+                quizPreviousButton.addEventListener('click', handlePrevious);
+                quizSaveNextButton.addEventListener('click', handleSaveNext);
+                quizSubmitQuizButton.addEventListener('click', confirmSubmission);
+
+                closeQuizModal.addEventListener('click', () => {
+                    clearInterval(timerInterval);
+                    showDashboardPage();
+                });
+
+                const startButtons = document.querySelectorAll('.start-button');
+                startButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const quizCard = this.closest('.quiz-card');
+                        const quizTitle = quizCard.dataset.quizTitle;
+                        startPreAssessmentFlow(quizTitle);
+                    });
+                });
+
+                const quizSectionPills = document.querySelectorAll('#assessments-page .tech-skill-pill');
+                quizSectionPills.forEach(pill => {
+                    pill.addEventListener('click', function() {
+                        const quizTitle = `${this.textContent} Quiz`;
+                        startPreAssessmentFlow(quizTitle);
+                    });
+                });
+
+                const viewCertificateButtons = document.querySelectorAll('.view-certificate-button');
+                viewCertificateButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const quizCard = this.closest('.quiz-card');
+                        const quizTitle = quizCard.dataset.quizTitle;
+                        const username = document.getElementById('username').textContent;
+                        if (username && quizTitle) {
+                            generateAndDownloadCertificate(username, quizTitle);
+                        }
+                    });
+                });
+
+                const techSkills = [
+                    { name: "Node.js", level: "Intermediate" },
+                    { name: "PHP", level: "Beginner" },
+                    { name: "Go-lang", level: "Advanced" },
+                    { name: ".Net", level: "Intermediate" },
+                    { name: "Devops", level: "Advanced" },
+                    { name: "Python", level: "Beginner" },
+                    { name: "Java", level: "Intermediate" },
+                    { name: "C++", level: "Advanced" },
+                    { name: "Ruby", level: "Beginner" },
+                    { name: "Swift", level: "Intermediate" },
+                    { name: "Kotlin", level: "Advanced" },
+                    { name: "Rust", level: "Beginner" },
+                    { name: "TypeScript", level: "Intermediate" },
+                    { name: "SQL", level: "Advanced" },
+                    { name: "NoSQL", level: "Beginner" },
+                    { name: "Cloud Computing", level: "Intermediate" },
+                    { name: "Machine Learning", level: "Advanced" },
+                    { name: "Data Science", level: "Beginner" },
+                    { name: "Cybersecurity", level: "Intermediate" },
+                    { name: "Blockchain", level: "Advanced" }
+                ];
+
+                const technicalQuizzesGrid = document.getElementById('technicalQuizzesGrid');
+                technicalQuizzesGrid.innerHTML = '';
+                techSkills.forEach(skill => {
+                    const quizCard = document.createElement('div');
+                    quizCard.classList.add('quiz-card', skill.level.toLowerCase().replace(' ', '-'));
+                    quizCard.dataset.quizTitle = `${skill.name} Quiz`;
+                    quizCard.dataset.quizScore = '0';
+                    const questionSet = allQuizQuestions[`${skill.name} Quiz`] || genericQuizQuestions;
+                    const numQuestions = questionSet.length;
+                    const randomHours = Math.floor(Math.random() * 30) + 15;
+                    quizCard.innerHTML = `
+                        <div class="quiz-card-header">
+                            <span class="quiz-card-title">${skill.name} Quiz</span>
+                            <span class="quiz-level">${skill.level}</span>
+                        </div>
+                        <p class="quiz-description">
+                            Assess your expertise in ${skill.name} fundamentals and advanced concepts.
+                        </p>
+                        <div class="quiz-footer">
+                            <div class="details">
+                                <span><i class="fas fa-question-circle"></i> ${numQuestions} Questions</span>
+                                <span><i class="fas fa-clock"></i> ${randomHours}h</span>
+                            </div>
+                            <div class="action-group">
+                                <button class="start-button">Start</button>
+                                <button class="view-certificate-button" style="display: none;">View Certificate</button>
+                                <i class="fas fa-arrow-right arrow-icon"></i>
+                            </div>
+                        </div>
+                    `;
+                    technicalQuizzesGrid.appendChild(quizCard);
+                    const startButton = quizCard.querySelector('.start-button');
+                    startButton.addEventListener('click', function() {
+                        const quizCardClicked = this.closest('.quiz-card');
+                        const quizTitle = quizCardClicked.dataset.quizTitle;
+                        startPreAssessmentFlow(quizTitle);
+                    });
+                    const viewCertificateButton = quizCard.querySelector('.view-certificate-button');
+                    viewCertificateButton.addEventListener('click', function() {
+                        const quizCardClicked = this.closest('.quiz-card');
+                        const quizTitle = quizCardClicked.dataset.quizTitle;
+                        const username = document.getElementById('username').textContent;
+                        if (username && quizTitle) {
+                            generateAndDownloadCertificate(username, quizTitle);
+                        }
+                    });
+                });
+            }
+
+            const initialLoggedInUser = localStorage.getItem('loggedInUser');
+            if (initialLoggedInUser) {
+                document.getElementById('username').textContent = initialLoggedInUser;
+                showDashboardPage();
+            } else {
+                showLoginPage();
+            }
+            const logoutButton = document.querySelector('.logout-btn');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('loggedInUser');
+                    showLoginPage();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

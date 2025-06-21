@@ -1,0 +1,2264 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Skillsync - Empower Your Assessments. Simplify Your Hiring.</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <style>
+            html, body {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                overflow-x: hidden;
+            }
+
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+            :root {
+                --primary-blue: #007bff;
+                --primary-blue-dark: #0056b3;
+                --secondary-purple: #7a60ff;
+                --accent-orange: #ffa000;
+                --accent-green: #1e7e34;
+                --light-blue-bg: #e6f0ff;
+                --light-gray-bg: #f4f6f8;
+                --white-bg: #fff;
+                
+                --text-dark: #333;
+                --text-color: var(--text-dark); 
+                --heading-color: var(--text-dark); 
+                --paragraph-color: var(--text-dark); 
+
+                --shadow-light: rgba(0, 0, 0, 0.05);
+                --shadow-medium: rgba(0, 0, 0, 0.08);
+                --shadow-strong: rgba(0, 0, 0, 0.15);
+                --border-light: #eee;
+                --quiz-body-bg: #f8f9fa;
+                --quiz-text-color: var(--text-dark);
+                --quiz-header-footer-bg: #ffffff;
+                --quiz-box-shadow-light: rgba(0, 0, 0, 0.1);
+                --quiz-box-shadow-medium: rgba(0, 0, 0, 0.15);
+                --quiz-bg: #ffffff;
+                --quiz-sidebar-bg: #ffffff;
+                --quiz-problem-option-bg: #f9f9f9;
+                --quiz-border-color-light: #eee;
+                --quiz-border-color-medium: #e0e6ed;
+                --quiz-highlight-blue: #007bff;
+                --quiz-highlight-blue-dark: #0056b3;
+                --quiz-green: #28a745;
+                --quiz-yellow: #ffc107;
+                --quiz-red: #dc3545;
+                --quiz-gray-light: #f0f0f0;
+                --quiz-gray-medium: #6c757d;
+                --quiz-dark-text: #2c3e50;
+                --quiz-light-blue-hover: #ebf2fa;
+                --quiz-message-overlay-bg: rgba(0, 0, 0, 0.7);
+                --quiz-message-box-bg: #ffffff;
+                --quiz-homepage-bg-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+                --quiz-homepage-text-shadow: 3px 33px 8px rgba(0, 0, 0, 0.1);
+
+                --body-bg-color: var(--quiz-body-bg);
+                
+                --button-primary-bg: #2575fc;
+                --button-primary-hover-bg: #1a60e0;
+                --button-secondary-bg: #6a11cb;
+                --button-secondary-hover-bg: #5a0ebf;
+
+                --theme-icon-color: var(--text-dark);
+                --border-color: var(--border-light);
+                --card-shadow-light: rgba(0, 0, 0, 0.05);
+                --shadow-medium: rgba(0, 0, 0, 0.08);
+                --shadow-strong: rgba(0, 0, 0, 0.15); 
+                --gradient-start: #007bff;
+                --gradient-end: #7a60ff;
+                --gradient-start-hover: #0056b3;
+                --gradient-end-hover: #6b46c1;
+                --section-separator-color: var(--light-gray-bg);
+                --card-icon-color: var(--primary-blue);
+                --card-icon-color-rgb: 0,123,255;
+
+                --typing-border-color: rgb(10, 112, 149);
+                --typing-blink-color: rgb(6, 74, 84);
+
+                --hover-bg-light: #e0f2fe;
+            }
+
+            .dark-theme {
+                --body-bg-color: #212529;
+                
+                --text-dark: #f8f9fa;
+                --text-color: var(--text-dark); 
+                --heading-color: var(--text-dark); 
+                --paragraph-color: var(--text-dark); 
+                
+                --content-bg-color: #343a40;
+                
+                --button-primary-bg: rgb(129, 11, 86);
+                --button-primary-hover-bg: rgb(129, 11, 86);
+                --button-secondary-bg: rgb(129, 11, 86);
+                --button-secondary-hover-bg: rgb(129, 11, 86);
+
+                --theme-icon-color: #FFD700;
+                --border-color: #495057;
+                --card-shadow-light: rgba(0, 0, 0, 0.4);
+                --card-shadow-medium: rgba(0, 0, 0, 0.2);
+                --shadow-strong: rgba(0, 0, 0, 0.1); 
+                --gradient-start: #28a745;
+                --gradient-end: #9b59b6;
+                --gradient-start-hover: #1e7e34;
+                --gradient-end-hover: #8e44ad;
+                --section-separator-color: #212529;
+                
+                --card-icon-color: var(--primary-blue);
+                --card-icon-color-rgb: 0, 123, 255;
+
+                --typing-border-color: rgb(160, 200, 250);
+                --typing-blink-color: rgb(100, 150, 200);
+
+                --hover-bg-dark: #4f5a6b;
+            }
+
+            .dark-theme .step-card i {
+                color: var(--card-icon-color) !important;
+            }
+            .dark-theme .step-card h3,
+            .dark-theme #users-count,
+            .dark-theme #institutions-count,
+            .dark-theme #partners-count {
+                color: var(--text-dark) !important;
+            }
+
+
+            body {
+                font-family: 'Inter', sans-serif;
+                background-color: var(--body-bg-color);
+                color: var(--text-color);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-height: 100vh;
+                transition: background-color 0.7s ease-in-out, color 0.7s ease-in-out;
+                padding-top: 80px;
+            }
+
+            .section-container {
+                background-color: var(--content-bg-color);
+                width: 100%;
+                position: relative;
+                padding: 3rem 0;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px var(--shadow-light), 0 4px 12px var(--shadow-medium);
+                margin-bottom: 3.5rem;
+                transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                border: 1px solid var(--border-color);
+                perspective: 1000px;
+            }
+            .section-container:hover {
+                transform: translateY(-5px) scale(1.01);
+                box-shadow: 0 8px 16px var(--shadow-medium), 0 12px 24px var(--shadow-strong);
+                background-color: var(--hover-bg-light);
+            }
+            .dark-theme .section-container:hover {
+                background-color: var(--hover-bg-dark);
+            }
+
+
+            .section-container .inner-content {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 1.5rem;
+                width: 100%;
+            }
+
+            .section-container h2 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin-bottom: 1.2rem;
+                color: var(--heading-color);
+                transition: color 0.7s ease-in-out;
+                letter-spacing: -0.01em;
+            }
+            .section-container p {
+                font-size: 1.1rem;
+                line-height: 1.6;
+                color: var(--paragraph-color);
+                transition: color 0.7s ease-in-out;
+                max-width: 750px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-container {
+                background-image: url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                position: relative;
+                overflow: hidden;
+                min-height: 100vh;
+                padding-top: 8rem;
+                width: 100%;
+                padding: 6rem 0;
+                border-radius: 12px;
+                margin-bottom: 3.5rem;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2), 0 6px 20px rgba(0,0,0,0.19);
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+            }
+            .hero-container:hover {
+                transform: translateY(-5px) scale(1.01);
+                box-shadow: 0 12px 24px rgba(0,0,0,0.3), 0 16px 32px rgba(0,0,0,0.25);
+                background-color: var(--hover-bg-light);
+            }
+            .dark-theme .hero-container:hover {
+                background-color: var(--hover-bg-dark);
+            }
+
+
+            .hero-container::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(5px);
+                z-index: 1;
+            }
+
+            .hero-container .inner-content {
+                z-index: 2;
+                color: var(--text-color);
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 1.5rem;
+                width: 100%;
+                position: relative;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            #hero-static-content {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 100%;
+                padding: 0 1.5rem;
+                box-sizing: border-box;
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+            }
+
+            #hero-static-content.active {
+                opacity: 1;
+            }
+
+            .hero-container h1 {
+                font-size: 3.5rem;
+                font-weight: 800;
+                margin-bottom: 1rem;
+                line-height: 1.1;
+                text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+                color: var(--heading-color);
+                letter-spacing: -0.02em;
+            }
+            .hero-container p {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+                max-width: 700px;
+                margin-left: auto;
+                margin-right: auto;
+                opacity: 0.95;
+                color: var(--paragraph-color);
+            }
+
+            .cta-button {
+                padding: 0.8rem 2rem;
+                border-radius: 4px;
+                font-size: 0.95rem;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 2px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.1);
+                position: relative;
+                overflow: hidden;
+                z-index: 1;
+                letter-spacing: 0.02em;
+                text-transform: uppercase;
+            }
+
+            .cta-button:hover {
+                transform: translateY(-3px) scale(1.05);
+                box-shadow: 0 6px 8px rgba(0,0,0,0.15), 0 8px 16px rgba(0,0,0,0.12);
+            }
+
+            .cta-primary-gradient {
+                background: var(--button-primary-bg);
+                color: white;
+                border: none;
+            }
+            .cta-primary-gradient:hover {
+                background: linear-gradient(45deg, var(--button-primary-hover-bg), var(--button-secondary-hover-bg));
+            }
+
+            .hero-container .cta-button.border {
+                background-color: transparent;
+                border-width: 1px;
+                border-color: var(--text-color);
+                color: var(--text-color);
+                box-shadow: none;
+            }
+            .hero-container .cta-button.border:hover {
+                background-color: rgba(0, 0, 0, 0.1);
+                border-color: var(--text-color);
+                box-shadow: none;
+            }
+
+            .step-card, .p-4.rounded-lg {
+                background-color: var(--content-bg-color);
+                padding: 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px var(--shadow-light);
+                text-align: center;
+                transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                border: 1px solid var(--border-color);
+                position: relative;
+                overflow: hidden;
+                z-index: 1;
+                transform-style: preserve-3d;
+            }
+            .step-card:hover, .p-4.rounded-lg:hover {
+                transform: translateY(-8px) scale(1.03) rotateX(5deg);
+                box-shadow: 0 12px 24px var(--shadow-medium), 0 10px 10px var(--shadow-strong);
+                background-color: var(--hover-bg-light);
+            }
+            .dark-theme .step-card:hover, .dark-theme .p-4.rounded-lg:hover {
+                background-color: var(--hover-bg-dark);
+            }
+
+            .step-card:hover::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(135deg, rgba(122, 96, 255, 0.1) 0%, rgba(0, 123, 255, 0.1) 100%);
+                z-index: 0;
+                border-radius: inherit;
+            }
+
+            .step-card i {
+                font-size: 2.2rem;
+                margin-bottom: 0.8rem;
+                color: var(--card-icon-color);
+                transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+                position: relative;
+                z-index: 1;
+            }
+            .step-card:hover i {
+                transform: scale(1.2) rotateY(15deg);
+                color: var(--primary-blue);
+                text-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+            }
+            .step-card h3 {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                color: var(--heading-color);
+                position: relative;
+                z-index: 1;
+                transition: transform 0.3s ease;
+            }
+            .step-card:hover h3 {
+                transform: translateX(5px);
+            }
+            .step-card p {
+                font-size: 0.88rem;
+                line-height: 1.5;
+                color: var(--paragraph-color);
+                flex-grow: 1;
+                position: relative;
+                z-index: 1;
+            }
+            .step-card ul {
+                width: 100%;
+                text-align: left;
+                margin-top: 0.3rem;
+                padding-left: 1rem;
+                position: relative;
+                z-index: 1;
+            }
+            .step-card ul li {
+                font-size: 0.8rem;
+                line-height: 1.3;
+                margin-bottom: 0.1rem;
+                color: var(--paragraph-color);
+            }
+
+            .testimonial-card {
+                background-color: var(--content-bg-color);
+                padding: 1.8rem;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px var(--shadow-light);
+                text-align: left;
+                transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+                height: 100%;
+                flex-shrink: 0;
+                min-width: 300px;
+                max-width: 400px;
+                width: 100%;
+                margin-right: 1.5rem;
+                border: 1px solid var(--border-color);
+            }
+            @media (max-width: 768px) {
+                .testimonial-card {
+                    margin-right: 1rem;
+                }
+            }
+            .testimonial-card:hover {
+                transform: translateY(-8px) scale(1.03);
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+                border-color: var(--primary-blue);
+            }
+            .testimonial-card:hover blockquote:before {
+                color: rgba(122, 96, 255, 0.5);
+            }
+            .testimonial-card .profile-image {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin-right: 1rem;
+                flex-shrink: 0;
+                object-fit: cover;
+            }
+            .testimonial-card blockquote {
+                font-size: 0.95rem;
+                font-style: italic;
+                margin-bottom: 0.8rem;
+                color: var(--text-color);
+                line-height: 1.5;
+                position: relative;
+                padding-left: 1.2rem;
+                white-space: normal;
+                overflow-wrap: break-word;
+                word-break: break-word;
+            }
+            .testimonial-card cite {
+                font-size: 0.85rem;
+                display: block;
+                font-weight: 500;
+                color: var(--text-color);
+                margin-top: 0.7rem;
+                padding-left: 1.2rem;
+                white-space: normal;
+                overflow-wrap: break-word;
+                word-break: break-word;
+            }
+            .testimonial-card blockquote:before {
+                content: "\201C";
+                font-size: 2.5rem;
+                position: absolute;
+                left: 0;
+                top: -0.2rem;
+                color: rgba(122, 96, 255, 0.3);
+                transition: color 0.3s ease;
+            }
+
+            .faq-item {
+                border-bottom: 1px solid var(--border-color);
+                padding: 0.8rem 0;
+                text-align: left;
+                transition: border-color 0.3s ease, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            }
+            .faq-item:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 2px 8px var(--shadow-light);
+                border-color: var(--primary-blue);
+            }
+            .faq-question {
+                font-weight: 500;
+                font-size: 0.95rem;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                color: var(--heading-color);
+                transition: color 0.3s ease;
+            }
+            .faq-question:hover {
+                color: var(--primary-blue);
+            }
+            .faq-answer {
+                max-height: 0;
+                overflow: hidden;
+                transition: all 0.4s ease-in-out;
+                opacity: 0;
+                padding-top: 0;
+                color: var(--paragraph-color);
+                font-size: 0.85rem;
+                line-height: 1.4;
+            }
+            .faq-answer.active {
+                max-height: 150px;
+                opacity: 1;
+                padding-top: 0.7rem;
+            }
+            .faq-question .icon {
+                font-size: 0.7rem;
+                transition: transform 0.25s ease;
+                margin-left: 0.4rem;
+            }
+            .faq-question .icon.rotate {
+                transform: rotate(180deg);
+            }
+
+            .app-logo-container {
+                position: static;
+            }
+            .app-logo-image {
+                height: 36px;
+                width: auto;
+                border-radius: 4px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                transition: all 0.15s ease;
+            }
+            .app-logo-image:hover {
+                transform: scale(1.02);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            }
+
+            .header-controls {
+                position: static;
+                display: flex;
+                gap: 0.6rem;
+                align-items: center;
+                z-index: 1000;
+                background-color: transparent;
+            }
+
+            .theme-toggle-icon {
+                font-size: 1.6rem;
+                cursor: pointer;
+                color: var(--theme-icon-color);
+                transition: all 0.3s ease;
+                margin-left: 0.5rem;
+            }
+            .theme-toggle-icon:hover {
+                transform: scale(1.05);
+            }
+
+            .carousel-nav-button {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background-color: rgba(0, 0, 0, 0.4);
+                color: white;
+                border: none;
+                padding: 0.8rem 0.5rem;
+                font-size: 1.8rem;
+                cursor: pointer;
+                z-index: 5;
+                transition: all 0.3s ease;
+                border-radius: 0.375rem;
+                opacity: 0.8;
+            }
+
+            .carousel-nav-button:hover {
+                background-color: rgba(0, 0, 0, 0.6);
+                transform: translateY(-50%) scale(1.05);
+                opacity: 1;
+            }
+
+            .carousel-nav-button.left {
+                left: 1.5rem;
+            }
+
+            .carousel-nav-button.right {
+                right: 1.5rem;
+            }
+
+            @media (max-width: 768px) {
+                body {
+                    padding-top: 60px;
+                }
+                .section-container, .hero-container {
+                    padding: 1.8rem 0;
+                    margin-bottom: 2rem;
+                    width: 100%;
+                    left: unset;
+                    transform: unset;
+                }
+                .section-container .inner-content, .hero-container .inner-content {
+                    padding: 0 0.6rem;
+                }
+                .section-container h2 {
+                    font-size: 1.8rem;
+                    margin-bottom: 0.9rem;
+                }
+                .section-container p {
+                    font-size: 0.95rem;
+                    line-height: 1.4;
+                }
+                .hero-container h1 {
+                    font-size: 2.2rem;
+                    margin-bottom: 0.7rem;
+                }
+                .hero-container p {
+                    font-size: 0.98rem;
+                    margin-bottom: 1.5rem;
+                }
+                .cta-button {
+                    padding: 0.6rem 1.2rem;
+                    font-size: 0.85rem;
+                }
+                .header-controls {
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 0.3rem;
+                }
+                .app-logo-container {
+                    height: 28px;
+                }
+                .app-logo-image {
+                    height: 28px;
+                }
+                .theme-toggle-icon {
+                    font-size: 1.4rem;
+                    margin-left: 0;
+                }
+                .step-card {
+                    padding: 1rem;
+                }
+                .step-card i {
+                    font-size: 2rem;
+                    margin-bottom: 0.7rem;
+                }
+                .step-card h3 {
+                    font-size: 1.1rem;
+                }
+                .testimonial-card {
+                    padding: 1.2rem;
+                    margin-right: 0.7rem;
+                    min-width: 250px;
+                }
+                .testimonial-card blockquote {
+                    font-size: 0.85rem;
+                    padding-left: 1rem;
+                }
+                .testimonial-card blockquote:before {
+                    font-size: 2.2rem;
+                }
+                .testimonial-card cite {
+                    font-size: 0.75rem;
+                }
+                .faq-item {
+                    padding: 0.7rem 0;
+                }
+                .faq-question {
+                    font-size: 0.9rem;
+                }
+                .faq-answer {
+                    font-size: 0.8rem;
+                }
+
+                .carousel-nav-button {
+                    padding: 0.6rem 0.3rem;
+                    font-size: 1.4rem;
+                    left: 0.5rem;
+                    right: 0.5rem;
+                }
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+                100% { transform: translateY(0px); }
+            }
+
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+
+            @keyframes slideInLeft {
+                from { transform: translateX(-100px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+
+            @keyframes slideInRight {
+                from { transform: translateX(100px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+
+            .animated-section {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+            .animated-section.is-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .float-animation {
+                animation: float 6s ease-in-out infinite;
+            }
+
+            .pulse-animation {
+                animation: pulse 2s ease-in-out infinite;
+            }
+
+            .slide-in-left {
+                animation: slideInLeft 0.8s ease-out forwards;
+            }
+
+            .slide-in-right {
+                animation: slideInRight 0.8s ease-out forwards;
+            }
+
+            .animated-item-1 { animation-delay: 0.1s; }
+            .animated-item-2 { animation-delay: 0.2s; }
+            .animated-item-3 { animation-delay: 0.3s; }
+            .animated-item-4 { animation-delay: 0.4s; }
+            .animated-item-5 { animation-delay: 0.5s; }
+            .animated-item-6 { animation-delay: 0.6s; }
+            .animated-item-7 { animation-delay: 0.7s; }
+
+
+            footer {
+                margin-top: 3rem;
+                padding-top: 1.5rem;
+                border-top: 1px solid var(--section-separator-color);
+                background-color: var(--content-bg-color);
+                width: 100%;
+                position: relative;
+                border-radius: 8px;
+                box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.03);
+                transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            }
+            footer:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.05), 0 -8px 20px rgba(0, 0, 0, 0.08);
+                background-color: var(--hover-bg-light);
+            }
+            .dark-theme footer:hover {
+                background-color: var(--hover-bg-dark);
+            }
+
+            footer .inner-content {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 1.5rem;
+                width: 100%;
+            }
+
+            footer a {
+                color: var(--text-color);
+                transition: color 0.3s ease;
+            }
+            footer a:hover {
+                color: var(--button-primary-bg);
+            }
+            footer .fab {
+                color: var(--text-color);
+                transition: color 0.3s ease;
+            }
+            footer .fab:hover {
+                color: var(--button-primary-bg);
+            }
+            .fab.fa-linkedin:hover { color: #0A66C2; }
+            .fab.fa-twitter:hover { color: #1DA1F2; }
+            .fab.fa-youtube:hover { color: #FF0000; }
+
+            .advertisement-image-container {
+                margin-top: 1.5rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                max-width: 600px;
+                margin-left: auto;
+                margin-right: auto;
+                overflow: hidden;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+            .advertisement-image {
+                width: 100%;
+                height: auto;
+                display: block;
+                border-radius: 8px;
+                transition: transform 0.25s ease-in-out;
+            }
+            .advertisement-image:hover {
+                transform: scale(1.01);
+            }
+
+            .testimonials-carousel-container {
+                overflow: hidden;
+                width: 100%;
+                max-width: 1200px;
+                position: relative;
+                padding-bottom: 1rem;
+            }
+
+            .testimonials-carousel-wrapper {
+                display: flex;
+                animation: scrollCarousel 90s linear infinite;
+                will-change: transform;
+            }
+            .testimonials-carousel-wrapper:hover {
+                animation-play-state: paused;
+            }
+
+            @keyframes scrollCarousel {
+                0% { transform: translateX(0%); }
+                100% { transform: translateX(-50%); }
+            }
+
+            .contact-card {
+                transition: all 0.3s ease;
+            }
+            .contact-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 8px var(--shadow-medium), 0 6px 16px var(--shadow-strong);
+            }
+
+            .glow-effect {
+                position: relative;
+            }
+            .glow-effect::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: inherit;
+                box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            .glow-effect:hover::after {
+                opacity: 1;
+            }
+
+            .particles {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                overflow: hidden;
+            }
+            .particle {
+                position: absolute;
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 50%;
+                animation: float 15s infinite linear;
+            }
+
+            .gradient-border {
+                position: relative;
+                border-radius: 8px;
+            }
+            .gradient-border::before {
+                content: '';
+                position: absolute;
+                top: -2px;
+                left: -2px;
+                right: -2px;
+                bottom: -2px;
+                background: linear-gradient(45deg, var(--primary-blue), var(--secondary-purple));
+                border-radius: 10px;
+                z-index: -1;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            .gradient-border:hover::before {
+                opacity: 1;
+            }
+
+            .scale-up-hover:hover {
+                transform: scale(1.05) translateY(-5px) rotateY(15deg);
+                transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+
+            .pop-in {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            @keyframes popIn {
+                0% { opacity: 0; transform: scale(0.8); }
+                100% { opacity: 1; transform: scale(1); }
+            }
+
+            .slide-up-fade-in {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            @keyframes slideUpFadeIn {
+                0% { opacity: 0; transform: translateY(20px); }
+                100% { opacity: 1; transform: translateY(0); }
+            }
+
+            .staggered-grid-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 2rem;
+            }
+
+            .staggered-grid-item {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            .rotate-icon-hover i {
+                transition: transform 0.3s ease;
+            }
+            .rotate-icon-hover:hover i {
+                transform: rotateY(180deg);
+            }
+
+            .border-reveal-button {
+                position: relative;
+                z-index: 1;
+            }
+            .border-reveal-button::before {
+                content: '';
+                position: absolute;
+                top: -2px;
+                left: -2px;
+                right: -2px;
+                bottom: -2px;
+                border-radius: inherit;
+                padding: 2px;
+                background: linear-gradient(45deg, var(--primary-blue), var(--secondary-purple));
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                z-index: -1;
+            }
+            .border-reveal-button:hover::before {
+                opacity: 1;
+            }
+
+            .ripple-button {
+                position: relative;
+                overflow: hidden;
+            }
+            .ripple-button span.ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.7);
+                animation: ripple-effect 0.6s linear;
+                transform: scale(0);
+                opacity: 1;
+                pointer-events: none;
+            }
+            @keyframes ripple-effect {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+
+            .parallax-bg {
+                background-attachment: fixed;
+                background-size: cover;
+                background-position: center;
+            }
+
+            .testimonials-carousel-wrapper {
+                display: flex;
+                white-space: nowrap;
+            }
+
+            @keyframes infiniteScroll {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+            }
+
+            .testimonials-carousel-wrapper.animate {
+                animation: infiniteScroll 60s linear infinite;
+            }
+
+            .testimonials-carousel-wrapper:hover.animate {
+                animation-play-state: paused;
+            }
+
+            #testimonials {
+                background: linear-gradient(135deg, var(--light-blue-bg) 0%, var(--light-gray-bg) 100%);
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+            }
+            .dark-theme #testimonials {
+                background: linear-gradient(135deg, #343a40 0%, #212529 100%);
+            }
+            .testimonial-card.scale-up-hover:hover {
+                transform: scale(1.03);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+            .dark-theme .cta-button.border {
+                border-color: var(--text-color);
+                color: var(--text-color);
+            }
+            .dark-theme .cta-button.border:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+                border-color: var(--text-color);
+            }
+
+            #still-curious h2,
+            #still-curious p {
+            }
+            #still-curious .cta-button.bg-white {
+                color: var(--button-primary-bg) !important;
+            }
+            #still-curious .cta-button.border {
+                color: var(--text-color) !important;
+                border-color: var(--text-color) !important;
+            }
+            #still-curious .cta-button.border:hover {
+                background-color: rgba(0, 0, 0, 0.1) !important;
+                border-color: var(--text-color) !important;
+            }
+
+            #ready-to-get-started h2,
+            #ready-to-get-started p {
+            }
+            #ready-to-get-started .cta-button.bg-white {
+                color: var(--button-primary-bg) !important;
+            }
+            #ready-to-get-started .cta-button.border {
+                color: var(--text-color) !important;
+                border-color: var(--text-color) !important;
+            }
+            #ready-to-get-started .cta-button.border:hover {
+                background-color: rgba(0, 0, 0, 0.1) !important;
+                border-color: var(--text-color) !important;
+            }
+
+            @keyframes slideInUp {
+                from {
+                    transform: translateY(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+
+            .discount-message-enter {
+                animation: slideInUp 0.5s ease-out forwards;
+            }
+
+            .discount-message-exit {
+                animation: fadeOut 0.3s ease-out forwards;
+            }
+
+            /* Chatbot Styles */
+            #chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+#chatbot-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-purple));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+}
+            
+            #chatbot-toggle:hover {
+                transform: scale(1.1) rotate(10deg);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            }
+            
+            #chatbot-toggle i {
+                font-size: 24px;
+                transition: all 0.3s ease;
+            }
+            
+            #chatbot-toggle:hover i {
+                transform: scale(1.2);
+            }
+            
+            #chatbot-window {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 350px;
+    max-height: 500px;
+    background-color: white; /* Changed to white */
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transform: scale(0.8);
+    opacity: 0;
+    transform-origin: bottom right;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: none;
+    border: 1px solid #e0e0e0; /* Light gray border */
+}
+            
+            #chatbot-window.open {
+                display: block;
+                transform: scale(1);
+                opacity: 1;
+            }
+            
+            .chatbot-header {
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-purple));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+                    .chatbot-header h3 {
+                margin: 0;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+            }
+            
+            .chatbot-header h3 i {
+                margin-right: 10px;
+            }
+            
+            .chatbot-close {
+                background: none;
+                border: none;
+                color: white;
+                cursor: pointer;
+                font-size: 18px;
+            }
+            
+            .chatbot-messages {
+    padding: 15px;
+    height: 350px;
+    overflow-y: auto;
+    background-color: white; /* Changed to white */
+    color: black; /* Changed to black */
+}
+
+            
+            .chatbot-messages::-webkit-scrollbar {
+                width: 6px;
+            }
+            
+            .chatbot-messages::-webkit-scrollbar-track {
+                background: var(--light-gray-bg);
+            }
+            
+            .chatbot-messages::-webkit-scrollbar-thumb {
+                background-color: var(--primary-blue);
+                border-radius: 6px;
+            }
+            
+            .message {
+    margin-bottom: 15px;
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 18px;
+    line-height: 1.4;
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+    color: black; /* Changed to black */
+}
+            
+            .bot-message {
+    background-color: #f0f0f0; /* Light gray for bot messages */
+    color: black;
+    border-bottom-left-radius: 5px;
+    align-self: flex-start;
+}
+            
+            .user-message {
+    background-color: var(--primary-blue);
+    color: white;
+    border-bottom-right-radius: 5px;
+    margin-left: auto;
+}
+            
+            .chatbot-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #e0e0e0;
+    background-color: white;
+}
+
+.chatbot-input input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 25px;
+    outline: none;
+    background-color: white;
+    color: black;
+}
+            
+            .chatbot-input button {
+                background: var(--primary-blue);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                margin-left: 10px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+            
+            .chatbot-input button:hover {
+                background: var(--primary-blue-dark);
+                transform: scale(1.1);
+            }
+            
+            .typing-indicator {
+    display: flex;
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border-radius: 18px;
+    width: fit-content;
+    margin-bottom: 15px;
+    border-bottom-left-radius: 5px;
+}
+
+.typing-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #555; /* Darker dots for visibility */
+    border-radius: 50%;
+    margin: 0 3px;
+    animation: typingAnimation 1.4s infinite ease-in-out;
+}
+            
+            .typing-dot:nth-child(1) {
+                animation-delay: 0s;
+            }
+            
+            .typing-dot:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+            
+            .typing-dot:nth-child(3) {
+                animation-delay: 0.4s;
+            }
+            
+            @keyframes typingAnimation {
+                0%, 60%, 100% {
+                    transform: translateY(0);
+                    opacity: 0.6;
+                }
+                30% {
+                    transform: translateY(-5px);
+                    opacity: 1;
+                }
+            }
+            
+            /* Pulse animation for the toggle when there's a new message */
+            .pulse-notification {
+                animation: pulse 1.5s infinite;
+            }
+            
+            @keyframes pulse {
+                0% {
+                    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+                }
+                70% {
+                    box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+                }
+                100% {
+                    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+                }
+            }
+            
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                #chatbot-window {
+                    width: 300px;
+                    max-height: 70vh;
+                }
+                
+                .chatbot-messages {
+                    height: calc(70vh - 120px);
+                }
+            }
+        </style>
+    </head>
+    <body class="antialiased">
+        <nav class="fixed top-0 left-0 w-full z-50 bg-white bg-opacity-90 shadow-lg py-3 px-6 flex justify-between items-center transition-colors duration-700 ease-in-out">
+            <div class="app-logo-container">
+                <a href="#">
+                    <img src="FullLogo_Transparent_NoBuffer.png" alt="Skillsync Logo" class="app-logo-image">
+                </a>
+            </div>
+
+            <div class="header-controls">
+                <a href="login.html">
+                    <button class="font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 cta-primary-gradient ripple-button">
+                        Login
+                    </button>
+                </a>
+                <a href="login.html">
+                    <button class="font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-300 cta-primary-gradient ripple-button">
+                        Sign Up
+                    </button>
+                </a>
+                <i id="themeToggle" class="fas fa-sun theme-toggle-icon"></i>
+            </div>
+        </nav>
+
+        <section id="hero" class="hero-container parallax-bg">
+            <div class="particles" id="particles"></div>
+            <div class="inner-content">
+                <div id="hero-static-content" class="active">
+                    <h1 class="animate__animated animate__fadeInDown">Skillsync: Assess Smarter. Hire Better.</h1>
+                    <p class="animate__animated animate__fadeInUp animate__delay-1s">Uncover true potential with AI-powered assessments designed to streamline recruitment and foster growth.</p>
+                    <div class="mt-8 animate__animated animate__fadeInUp animate__delay-2s">
+                        <a href="#" class="cta-button cta-primary-gradient mr-4 glow-effect ripple-button">Start Free Trial</a>
+                        <a href="#" class="cta-button border border-reveal-button ripple-button">Watch Demo</a>
+                    </div>
+                </div>
+            </div>
+            <button id="prevHero" class="carousel-nav-button left">&#10094;</button>
+            <button id="nextHero" class="carousel-nav-button right">&#10095;</button>
+        </section>
+
+        <section id="about-platform" class="section-container animated-section">
+            <div class="inner-content">
+                <img src="FullLogo_Transparent_NoBuffer.png" alt="Skillsync Small Logo" class="mx-auto mb-4 float-animation w-40 h-auto">
+                <h2 class="text-3xl font-bold mb-8 pop-in">Skillsync: Your Talent Assessment Revolution</h2>
+                <p class="text-lg leading-relaxed mb-12 slide-up-fade-in">
+                    Our comprehensive digital platform transforms how you identify, evaluate, and develop talent. From hiring to upskilling, get actionable insights that drive real results.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 staggered-grid-container">
+                    <div class="step-card slide-in-left scale-up-hover rotate-icon-hover staggered-grid-item animated-item-1">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Fast Implementation</h3>
+                        <p>Get started in minutes with our intuitive interface and ready-to-use assessment templates.</p>
+                    </div>
+                    <div class="step-card scale-up-hover rotate-icon-hover staggered-grid-item animated-item-2">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Enterprise Security</h3>
+                        <p>Bank-grade encryption and compliance with global data protection regulations.</p>
+                    </div>
+                    <div class="step-card slide-in-right scale-up-hover rotate-icon-hover staggered-grid-item animated-item-3">
+                        <i class="fas fa-random"></i>
+                        <h3>Seamless Integrations</h3>
+                        <p>Connect with your existing HR tools via our API or native integrations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="section-container animated-section">
+            <div class="inner-content">
+                <h2 class="text-3xl font-bold mb-8 pop-in">Your Journey with Skillsync: Simple & Seamless</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 staggered-grid-container">
+                    <div class="step-card hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 scale-up-hover rotate-icon-hover staggered-grid-item animated-item-1">
+                        <i class="fas fa-circle-plus pulse-animation"></i>
+                        <h3>Create Assessments</h3>
+                        <p>Build tests effortlessly using our intuitive drag-and-drop interface with 1000+ question templates.</p>
+                    </div>
+                    <div class="step-card hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 scale-up-hover rotate-icon-hover staggered-grid-item animated-item-2">
+                        <i class="fas fa-user-check pulse-animation" style="animation-delay: 0.2s;"></i>
+                        <h3>Invite Participants</h3>
+                        <p>Share secure links instantly via email, SMS, or integrated platforms like LinkedIn and Indeed.</p>
+                    </div>
+                    <div class="step-card hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 scale-up-hover rotate-icon-hover staggered-grid-item animated-item-3">
+                        <i class="fas fa-eye pulse-animation" style="animation-delay: 0.4s;"></i>
+                        <h3>Monitor & Proctor</h3>
+                        <p>Ensure integrity with real-time proctoring, AI-powered anti-cheat alerts, and browser lockdown.</p>
+                    </div>
+                    <div class="step-card hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 scale-up-hover rotate-icon-hover staggered-grid-item animated-item-4">
+                        <i class="fas fa-chart-line pulse-animation" style="animation-delay: 0.6s;"></i>
+                        <h3>Analyze Results</h3>
+                        <p>Receive detailed performance reports, benchmarking data, and actionable analytics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="assessment-types" class="section-container animated-section">
+            <div class="inner-content">
+                <h2 class="text-3xl font-bold mb-8 pop-in">Comprehensive Assessments: Uncover Every Skill</h2>
+                <p class="text-lg mb-12 max-w-3xl mx-auto slide-up-fade-in">
+                    From technical coding challenges to behavioral evaluations, Skillsync offers the most comprehensive assessment library in the industry.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left staggered-grid-container">
+                    <div class="p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 step-card transform hover:scale-105 transition-transform duration-300 scale-up-hover rotate-icon-hover staggered-grid-item animated-item-1">
+                        <i class="fas fa-code text-blue-500"></i>
+                        <h3 class="font-semibold text-lg mb-2 text-blue-700 dark:text-blue-400">Technical Proficiency</h3>
+                        <ul>
+                            <li>Coding challenges in 25+ languages</li>
+                            <li>System design simulations</li>
+                            <li>Debugging exercises</li>
+                            <li>Database & API testing</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 step-card transform hover:scale-105 transition-transform duration-300 scale-up-hover rotate-icon-hover staggered-grid-item animated-item-2">
+                        <i class="fas fa-lightbulb text-purple-500"></i>
+                        <h3 class="font-semibold text-lg mb-2 text-purple-700 dark:text-purple-400">Aptitude & Logic</h3>
+                        <ul>
+                            <li>Numerical & Verbal reasoning</li>
+                            <li>Abstract & Critical thinking</li>
+                            <li>Problem-solving scenarios</li>
+                            <li>Pattern recognition tests</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 step-card transform hover:scale-105 transition-transform duration-300 scale-up-hover rotate-icon-hover staggered-grid-item animated-item-3">
+                        <i class="fas fa-language text-green-500"></i>
+                        <h3 class="font-semibold text-lg mb-2 text-green-700 dark:text-green-400">Communication & Language</h3>
+                        <ul>
+                            <li>Grammar and comprehension</li>
+                            <li>Fluency and pronunciation</li>
+                            <li>Written communication skills</li>
+                            <li>Business writing assessments</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 step-card transform hover:scale-105 transition-transform duration-300 scale-up-hover rotate-icon-hover staggered-grid-item animated-item-4">
+                        <i class="fas fa-user-tie text-red-500"></i>
+                        <h3 class="font-semibold text-lg mb-2 text-red-700 dark:text-red-400">Behavioral & Personality</h3>
+                        <ul>
+                            <li>Assess soft skills</li>
+                            <li>Culture fit evaluation</li>
+                            <li>Leadership potential</li>
+                            <li>Emotional intelligence</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 sm:col-span-2 lg:col-span-1 step-card transform hover:scale-105 transition-transform duration-300 scale-up-hover rotate-icon-hover staggered-grid-item animated-item-5">
+                        <i class="fas fa-video text-yellow-500"></i>
+                        <h3 class="font-semibold text-lg mb-2 text-yellow-700 dark:text-yellow-400">Advanced Proctoring</h3>
+                        <p class="text-sm">Enhance assessment integrity with robust live webcam monitoring, screen recording, AI behavior analysis, and advanced anti-cheating protocols for a secure testing environment.</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 step-card transform hover:scale-105 transition-transform duration-300 scale-up-hover rotate-icon-hover staggered-grid-item animated-item-6">
+                        <i class="fas fa-puzzle-piece text-orange-500"></i>
+                        <h3 class="font-semibold text-lg mb-2 text-orange-700 dark:text-orange-400">Role-Based Scenario Assessments</h3>
+                        <p class="text-sm">Evaluate candidates with realistic, interactive scenarios tailored to specific job roles, mimicking real-world challenges.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="platform-features" class="section-container animated-section">
+            <div class="inner-content">
+                <h2 class="text-3xl font-bold mb-8 pop-in">Core Features: Engineered for Your Success</h2>
+                <p class="text-lg mb-12 max-w-3xl mx-auto slide-up-fade-in">
+                    Skillsync combines powerful technology with intuitive design to deliver an unparalleled assessment experience.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 staggered-grid-container">
+                    <div class="step-card gradient-border hover:shadow-xl scale-up-hover rotate-icon-hover staggered-grid-item animated-item-1">
+                        <i class="fas fa-cogs text-blue-500"></i>
+                        <h3>Custom Test Builder</h3>
+                        <p>Craft unique assessments effortlessly, drawing from our extensive question banks or adding your own custom questions.</p>
+                    </div>
+                    <div class="step-card gradient-border hover:shadow-xl scale-up-hover rotate-icon-hover staggered-grid-item animated-item-2">
+                        <i class="fas fa-lock text-green-500"></i>
+                        <h3>Secure Test Environment</h3>
+                        <p>Ensure fairness and prevent fraud with advanced proctoring, browser lockdown, and plagiarism detection.</p>
+                    </div>
+                    <div class="step-card gradient-border hover:shadow-xl scale-up-hover rotate-icon-hover staggered-grid-item animated-item-3">
+                        <i class="fas fa-flask text-purple-500"></i>
+                        <h3>AI-Powered Reporting</h3>
+                        <p>Gain deep insights into candidate performance with intelligent analytics and benchmarking against industry standards.</p>
+                    </div>
+                    <div class="step-card gradient-border hover:shadow-xl scale-up-hover rotate-icon-hover staggered-grid-item animated-item-4">
+                        <i class="fas fa-users-gear text-red-500"></i>
+                        <h3>Role-Based Access Control</h3>
+                        <p>Tailored dashboards and permissions for admins, candidates, and reviewers for streamlined workflows.</p>
+                    </div>
+                    <div class="step-card gradient-border hover:shadow-xl scale-up-hover rotate-icon-hover staggered-grid-item animated-item-5">
+                        <i class="fas fa-mobile-alt text-yellow-500"></i>
+                        <h3>Responsive & Compatible</h3>
+                        <p>Seamless assessment experience across all devices and web browsers, ensuring accessibility for all users.</p>
+                    </div>
+                    <div class="step-card gradient-border hover:shadow-xl scale-up-hover rotate-icon-hover staggered-grid-item animated-item-6">
+                        <i class="fas fa-robot text-blue-400"></i>
+                        <h3>AI Evaluation Assistant</h3>
+                        <p>Our AI automatically grades subjective answers, saving you hours of manual evaluation time.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="our-impact" class="section-container animated-section">
+            <div class="inner-content">
+                <h2 class="text-3xl font-bold mb-8 pop-in">Skillsync's Global Impact: Proven Results</h2>
+                <p class="text-lg leading-relaxed max-w-3xl mx-auto mb-12 slide-up-fade-in">
+                    Trusted by organizations worldwide to make smarter hiring and development decisions.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 staggered-grid-container">
+                    <div class="step-card transform hover:scale-105 transition-transform duration-300 scale-up-hover staggered-grid-item animated-item-1">
+                        <i class="fas fa-user-group text-blue-500"></i>
+                        <h3 class="font-semibold text-6xl text-blue-700 dark:text-blue-400 mb-2" id="users-count">0</h3>
+                        <p class="text-lg">Active Users</p>
+                    </div>
+                    <div class="step-card transform hover:scale-105 transition-transform duration-300 scale-up-hover staggered-grid-item animated-item-2">
+                        <i class="fas fa-building text-purple-500"></i>
+                        <h3 class="font-semibold text-6xl text-purple-700 dark:text-purple-400 mb-2" id="institutions-count">0</h3>
+                        <p class="text-lg">Institutions & Organizations</p>
+                    </div>
+                    <div class="step-card transform hover:scale-105 transition-transform duration-300 scale-up-hover staggered-grid-item animated-item-3">
+                        <i class="fas fa-handshake text-green-500"></i>
+                        <h3 class="font-semibold text-6xl text-green-700 dark:text-green-400 mb-2" id="partners-count">0</h3>
+                        <p class="text-lg">Hiring Partners</p>
+                    </div>
+                </div>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 staggered-grid-container">
+                    <div class="p-6 rounded-lg bg-teal-50 dark:bg-teal-900/20 border border-teal-100 dark:border-teal-800/50 transform hover:scale-102 transition-transform duration-300 scale-up-hover staggered-grid-item animated-item-4">
+                        <h3 class="text-xl font-bold mb-2 text-teal-700 dark:text-teal-300">87%</h3>
+                        <p>Reduction in time-to-hire for our clients</p>
+                    </div>
+                    <div class="p-6 rounded-lg bg-rose-50 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-800/50 transform hover:scale-102 transition-transform duration-300 scale-up-hover staggered-grid-item animated-item-5">
+                        <h3 class="text-xl font-bold mb-2 text-rose-700 dark:text-rose-300">92%</h3>
+                        <p>Candidate satisfaction rate with our platform</p>
+                    </div>
+                    <div class="p-6 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/50 transform hover:scale-102 transition-transform duration-300 scale-up-hover staggered-grid-item animated-item-6">
+                        <h3 class="text-xl font-bold mb-2 text-amber-700 dark:text-amber-300">4.8/5</h3>
+                        <p>Average customer rating across review platforms</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="section-container animated-section">
+            <div class="inner-content">
+                <h2 class="text-3xl font-bold mb-8 pop-in">Hear From Our Valued Users</h2>
+                <p class="text-lg mb-12 max-w-3xl mx-auto slide-up-fade-in">
+                    Don't just take our word for it - see what our customers say about their experience with Skillsync.
+                </p>
+                <div class="testimonials-carousel-container">
+                    <div class="testimonials-carousel-wrapper animate" id="testimonialsCarousel">
+                        <div class="testimonial-card transform hover:scale-105 transition-transform duration-300 scale-up-hover">
+                            <div class="flex items-start mb-4">
+                                <img src="1.avif" alt="Priya V." class="profile-image mr-4">
+                                <div>
+                                    <blockquote>“SkillSync revolutionized our recruitment. It helped us reduce our hiring time by a phenomenal 50%! The automated evaluations are an absolute game-changer for efficiency.”</blockquote>
+                                    <cite>&mdash; Priya V., HR Lead, TechNova</cite>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card transform hover:scale-105 transition-transform duration-300 scale-up-hover">
+                            <div class="flex items-start mb-4">
+                                <img src="image.png" alt="Karthik M." class="profile-image mr-4">
+                                <div>
+                                    <blockquote>“This platform is incredibly user-friendly and highly efficient. It's proven to be the perfect solution for our large-scale campus hiring drives, making talent acquisition a breeze.”</blockquote>
+                                    <cite>&mdash; Karthik M., Placement Officer, Apex Institute</cite>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card transform hover:scale-105 transition-transform duration-300 scale-up-hover">
+                            <div class="flex items-start mb-4">
+                                <img src="2.avif" alt="L&D Manager" class="profile-image mr-4">
+                                <div>
+                                    <blockquote>“The insights from SkillSync's analytics are unparalleled. We can pinpoint strengths and areas for development instantly, leading to more targeted training initiatives.”</blockquote>
+                                    <cite>&mdash; L&D Manager, Global Solutions Inc.</cite>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card transform hover:scale-105 transition-transform duration-300 scale-up-hover">
+                            <div class="flex items-start mb-4">
+                                <img src="1.avif" alt="CTO" class="profile-image mr-4">
+                                <div>
+                                    <blockquote>"Implementing SkillSync was a smooth process. Their support team is fantastic, and the platform's security features give us complete peace of mind."</blockquote>
+                                    <cite>&mdash; CTO, SecureCode Systems</cite>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card transform hover:scale-105 transition-transform duration-300 scale-up-hover">
+                            <div class="flex items-start mb-4">
+                                <img src="2.avif" alt="Recruitment Director" class="profile-image mr-4">
+                                <div>
+                                    <blockquote>“Our hiring accuracy has soared since we started using SkillSync. It's truly a smarter way to evaluate potential candidates.”</blockquote>
+                                    <cite>&mdash; Recruitment Director, Innovate Staffing</cite>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card transform hover:scale-105 transition-transform duration-300 scale-up-hover">
+                            <div class="flex items-start mb-4">
+                                <img src="image.png" alt="HR Specialist" class="profile-image mr-4">
+                                <div>
+                                    <blockquote>“From creating tests to reviewing results, the entire process is seamless. SkillSync has become an indispensable part of our talent acquisition strategy.”</blockquote>
+                                    <cite>&mdash; HR Specialist, Future Corp</cite>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card transform hover:scale-105 transition-transform duration-300 scale-up-hover">
+                            <div class="flex items-start mb-4">
+                                <img src="1.avif" alt="Dean of Admissions" class="profile-image mr-4">
+                                <div>
+                                    <blockquote>“The automated proctoring gave us confidence in the integrity of our online exams. This is essential for large-scale academic assessments.”</blockquote>
+                                    <cite>&mdash; Dean of Admissions, Elite University</cite>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card transform hover:scale-105 transition-transform duration-300 scale-up-hover">
+                            <div class="flex items-start mb-4">
+                                <img src="2.avif" alt="VP of Talent" class="profile-image mr-4">
+                                <div>
+                                    <blockquote>“I highly recommend SkillSync to any organization looking to modernize their assessment practices. The ROI is clear and immediate.”</blockquote>
+                                    <cite>&mdash; VP of Talent, Global Enterprises</cite>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="still-curious" class="hero-container animated-section parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80')">
+            <div class="inner-content">
+                <h2 class="text-3xl font-bold mb-4">Have Questions? We're Here to Help!</h2>
+                <p class="text-lg mb-8 max-w-3xl mx-auto">
+                    Our team is ready to guide you. Schedule a personalized walkthrough or dive into a live demo to see Skillsync in action.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center animate__animated animate__fadeInUp animate__delay-1s">
+                    <a href="contact.html" class="cta-button bg-white text-blue-700 hover:bg-gray-100 transform hover:scale-105 transition-transform duration-300 ripple-button border-reveal-button">📞 Contact Our Team</a>
+                    <a href="#" class="cta-button border border-white text-white hover:bg-white hover:text-blue-700 transform hover:scale-105 transition-transform duration-300 ripple-button border-reveal-button">▶️ Watch a Demo</a>
+                </div>
+                <p class="text-sm mt-6 opacity-80">No credit card required • 14-day free trial • Cancel anytime</p>
+            </div>
+        </section>
+
+        <section id="faqs" class="section-container animated-section">
+            <div class="inner-content">
+                <h2 class="text-3xl font-bold mb-6 pop-in">Your Questions, Answered</h2>
+                <p class="text-lg mb-8 max-w-3xl mx-auto slide-up-fade-in">
+                    Here are answers to some of the most common questions we receive about Skillsync.
+                </p>
+                <div class="max-w-3xl mx-auto">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Is the platform secure against cheating? <span class="icon">&#9660;</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Absolutely—our anti-cheating and proctoring protocols are industry-grade, including browser lockdown, AI-powered behavior analysis, live webcam monitoring, and plagiarism detection to ensure robust security for all assessments.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Can I schedule assessments across time zones? <span class="icon">&#9660;</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, test windows and reminders are fully customizable to accommodate various time zones. Our platform automatically adjusts times based on each candidate's location for global reach.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            What tech skills can I evaluate? <span class="icon">&#9660;</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>From Python to personality traits—we've got it covered with a wide range of technical, aptitude, and behavioral assessments. We support 25+ programming languages and frameworks, as well as specialized skills in cloud computing, cybersecurity, data science, and more.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Can I customize branding? <span class="icon">&#9660;</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, our platform offers extensive branding customization options including logos, color schemes, email templates, and assessment interfaces to ensure your assessments reflect your organization's identity and provide a seamless candidate experience.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            How does the pricing work? <span class="icon">&#9660;</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We offer flexible pricing plans based on your organization's size and needs, including pay-as-you-go options for occasional users and enterprise plans with unlimited assessments. All plans include our full feature set with no hidden fees.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <a href="#" class="hover:underline">Explore Full FAQs &rarr;</a> <span class="icon">&#9660;</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>For more detailed answers to your questions, please visit our comprehensive FAQ page or contact our support team for personalized assistance.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ready-to-get-started" class="hero-container animated-section parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80')">
+            <div class="inner-content">
+                <h2 class="text-3xl font-bold mb-4">Ready to Transform Your Talent Strategy?</h2>
+                <p class="text-lg mb-8 max-w-3xl mx-auto">
+                    Join thousands of companies, institutions, and educators who are revolutionizing talent assessment with Skillsync.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center animate__animated animate__fadeInUp animate__delay-1s">
+                    <a href="#" class="cta-button bg-white text-blue-700 hover:bg-gray-100 transform hover:scale-105 transition-transform duration-300 pulse-animation ripple-button border-reveal-button">🚀 Start Your Free Trial →</a>
+                    <a href="#" class="cta-button border border-white text-white hover:bg-white hover:text-blue-700 transform hover:scale-105 transition-transform duration-300 ripple-button border-reveal-button">📞 Schedule a Demo</a>
+                </div>
+                <p class="text-sm mt-6 opacity-80">No credit card required • 14-day free trial • Cancel anytime</p>
+            </div>
+        </section>
+
+        <footer class="mt-12 text-sm text-gray-500 w-full text-center py-8">
+            <div class="inner-content">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-left mb-8">
+                    <div>
+                        <h3 class="font-bold mb-4">Product</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#">Features</a></li>
+                            <li><a href="#">Pricing</a></li>
+                            <li><a href="#">Integrations</a></li>
+                            <li><a href="#">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-bold mb-4">Resources</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Webinars</a></li>
+                            <li><a href="#">Templates</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-bold mb-4">Company</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Press</a></li>
+                            <li><a href="#">Partners</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-bold mb-4">Legal</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Security</a></li>
+                            <li><a href="#">GDPR</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex justify-center space-x-6 mb-4">
+                    <a href="contact.html">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                </div>
+                <div class="flex justify-center space-x-6 mb-2">
+                    <a href="#" class="hover:text-blue-600 transition-colors"><i class="fab fa-linkedin text-xl"></i></a>
+                    <a href="#" class="hover:text-blue-400 transition-colors"><i class="fab fa-twitter text-xl"></i></a>
+                    <a href="#" class="hover:text-red-600 transition-colors"><i class="fab fa-youtube text-xl"></i></a>
+                    <a href="#" class="hover:text-gray-800 dark:hover:text-gray-300 transition-colors"><i class="fab fa-github text-xl"></i></a>
+                </div>
+                <p class="mt-2">&copy; 2025 Skillsync. All rights reserved.</p>
+            </div>
+        </footer>
+
+        
+
+        <!-- Chatbot HTML -->
+        <div id="chatbot-container">
+            <div id="chatbot-window">
+                <div class="chatbot-header">
+                    <h3><i class="fas fa-robot"></i> Siva - Your AI Assistant</h3>
+                    <button class="chatbot-close">&times;</button>
+                </div>
+                <div class="chatbot-messages" id="chatbot-messages">
+                    <div class="message bot-message">
+                        Hello! I'm Siva, your Skillsync assistant. How can I help you today?
+                    </div>
+                </div>
+                <div class="chatbot-input">
+                    <input type="text" id="chatbot-input" placeholder="Type your message..." autocomplete="off">
+                    <button id="chatbot-send"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+            <button id="chatbot-toggle" class="pulse-notification">
+                <i class="fas fa-comment-dots"></i>
+            </button>
+        </div>
+
+        <script>
+            document.getElementById('themeToggle').addEventListener('click', function() {
+                document.body.classList.toggle('dark-theme');
+                const themeIcon = document.getElementById('themeToggle');
+                if (document.body.classList.contains('dark-theme')) {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const savedTheme = localStorage.getItem('theme');
+                const themeIcon = document.getElementById('themeToggle');
+                if (savedTheme === 'dark') {
+                    document.body.classList.add('dark-theme');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                } else {
+                    document.body.classList.remove('dark-theme');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+
+                const particlesContainer = document.getElementById('particles');
+                if (particlesContainer) {
+                    for (let i = 0; i < 30; i++) {
+                        const particle = document.createElement('div');
+                        particle.classList.add('particle');
+                        
+                        const size = Math.random() * 3 + 2;
+                        particle.style.width = `${size}px`;
+                        particle.style.height = `${size}px`;
+                        
+                        particle.style.left = `${Math.random() * 100}%`;
+                        particle.style.top = `${Math.random() * 100}%`;
+                        
+                        const duration = Math.random() * 10 + 10;
+                        particle.style.animationDuration = `${duration}s`;
+                        
+                        particle.style.animationDelay = `${Math.random() * 5}s`;
+                        
+                        particle.style.opacity = Math.random() * 0.5 + 0.1;
+                        
+                        particlesContainer.appendChild(particle);
+                    }
+                }
+
+                const faqQuestions = document.querySelectorAll('.faq-question');
+                faqQuestions.forEach(question => {
+                    question.addEventListener('click', () => {
+                        const answer = question.nextElementSibling;
+                        const icon = question.querySelector('.icon');
+
+                        document.querySelectorAll('.faq-answer.active').forEach(openAnswer => {
+                            if (openAnswer !== answer) {
+                                openAnswer.classList.remove('active');
+                                openAnswer.previousElementSibling.querySelector('.icon').classList.remove('rotate');
+                            }
+                        });
+
+                        answer.classList.toggle('active');
+                        icon.classList.toggle('rotate');
+                    });
+                });
+
+                const animatedSections = document.querySelectorAll('.animated-section');
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.1
+                };
+
+                const sectionObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                animatedSections.forEach(section => {
+                    sectionObserver.observe(section);
+                });
+
+                const staggeredGridContainers = document.querySelectorAll('.staggered-grid-container');
+                staggeredGridContainers.forEach(container => {
+                    const gridItems = container.querySelectorAll('.staggered-grid-item');
+                    const gridObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                gridItems.forEach((item, index) => {
+                                    item.style.animationDelay = `${index * 0.1}s`;
+                                    item.classList.add('animate__animated', 'animate__fadeInUp');
+                                });
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, { rootMargin: '0px', threshold: 0.2 });
+                    gridObserver.observe(container);
+                });
+
+
+                const textAnimations = document.querySelectorAll('.pop-in, .slide-up-fade-in');
+                const textObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            if (entry.target.classList.contains('pop-in')) {
+                                entry.target.style.transform = 'scale(1)';
+                                entry.target.style.animation = 'popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
+                            } else if (entry.target.classList.contains('slide-up-fade-in')) {
+                                entry.target.style.transform = 'translateY(0)';
+                                entry.target.style.animation = 'slideUpFadeIn 0.7s ease-out forwards';
+                            }
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { rootMargin: '0px', threshold: 0.1 });
+
+                textAnimations.forEach(element => {
+                    textObserver.observe(element);
+                });
+
+                const heroContentDiv = document.getElementById('hero-static-content');
+                const heroTitle = heroContentDiv.querySelector('h1');
+                const heroParagraph = heroContentDiv.querySelector('p');
+                const heroContainer = document.getElementById('hero');
+                const prevButton = document.getElementById('prevHero');
+                const nextButton = document.getElementById('nextHero');
+
+                const heroSlidesData = [
+                    {
+                        h1: "Skillsync: Assess Smarter. Hire Better.",
+                        p: "Uncover true potential with AI-powered assessments designed to streamline recruitment and foster growth."
+                    },
+                    {
+                        h1: "Precision Meets Potential: Your Talent Unlocked.",
+                        p: "Deliver insightful evaluations that go beyond resumes, identifying and elevating real talent with confidence."
+                    },
+                    {
+                        h1: "Elevate Every Assessment. Achieve More.",
+                        p: "From technical interviews to behavioral profiling, ensure consistent, cheat-proof assessments that scale with your goals."
+                    },
+                    {
+                        h1: "Data-Driven Decisions. Superior Hiring.",
+                        p: "Access real-time analytics, seamless test creation, and advanced proctoring—all integrated for optimal performance."
+                    },
+                    {
+                        h1: "The Future of Talent Evaluation. Ready for You.",
+                        p: "Empower your hiring and training strategies with intelligent tools that adapt to your needs and deliver measurable results."
+                    }
+                ];
+
+                let currentHeroSlideIndex = 0;
+                let slideInterval;
+
+                const updateHeroContent = () => {
+                    heroTitle.classList.remove('animate__fadeInDown');
+                    heroParagraph.classList.remove('animate__fadeInUp', 'animate__delay-1s');
+                    
+                    void heroTitle.offsetWidth; 
+                    void heroParagraph.offsetWidth;
+
+                    heroContentDiv.classList.remove('active');
+
+                    setTimeout(() => {
+                        heroTitle.textContent = heroSlidesData[currentHeroSlideIndex].h1;
+                        heroParagraph.textContent = heroSlidesData[currentHeroSlideIndex].p;
+                        
+                        heroTitle.classList.add('animate__fadeInDown');
+                        heroParagraph.classList.add('animate__fadeInUp', 'animate__delay-1s');
+
+                        heroContentDiv.classList.add('active');
+                    }, 300);
+                };
+
+                const nextHeroSlide = () => {
+                    currentHeroSlideIndex = (currentHeroSlideIndex + 1) % heroSlidesData.length;
+                    updateHeroContent();
+                };
+
+                const prevHeroSlide = () => {
+                    currentHeroSlideIndex = (currentHeroSlideIndex - 1 + heroSlidesData.length) % heroSlidesData.length;
+                    updateHeroContent();
+                };
+
+                nextButton.addEventListener('click', () => {
+                    clearInterval(slideInterval);
+                    nextHeroSlide();
+                    slideInterval = setInterval(nextHeroSlide, 5000);
+                });
+
+                prevButton.addEventListener('click', () => {
+                    clearInterval(slideInterval);
+                    prevHeroSlide();
+                    slideInterval = setInterval(nextHeroSlide, 5000);
+                });
+
+                updateHeroContent();
+
+                slideInterval = setInterval(nextHeroSlide, 5000);
+
+                heroContainer.addEventListener('mouseenter', () => {
+                    clearInterval(slideInterval);
+                });
+
+                heroContainer.addEventListener('mouseleave', () => {
+                    slideInterval = setInterval(nextHeroSlide, 5000);
+                });
+
+                const animateCount = (id, target, duration, suffix = '') => {
+                    const element = document.getElementById(id);
+                    if (!element) return;
+
+                    const start = 0;
+                    let startTime = null;
+
+                    const easeOutQuad = t => t * (2 - t);
+
+                    const step = (currentTime) => {
+                        if (!startTime) startTime = currentTime;
+                        const progress = Math.min((currentTime - startTime) / duration, 1);
+                        const easedProgress = easeOutQuad(progress);
+                        const value = Math.floor(easedProgress * target);
+                        element.textContent = value.toLocaleString() + suffix;
+
+                        if (progress < 1) {
+                            requestAnimationFrame(step);
+                        }
+                    };
+
+                    const counterObserverOptions = {
+                        root: null,
+                        rootMargin: '0px',
+                        threshold: 0.5
+                    };
+
+                    const counterObserver = new IntersectionObserver((entries, counterObserver) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting && !element.dataset.animated) {
+                                requestAnimationFrame(step);
+                                element.dataset.animated = 'true';
+                                counterObserver.unobserve(entry.target);
+                            }
+                        });
+                    }, counterObserverOptions);
+
+                    counterObserver.observe(element);
+                };
+
+                animateCount('users-count', 20000, 2000);
+                animateCount('institutions-count', 350, 2500, '+');
+                animateCount('partners-count', 120, 3000, '+');
+
+                document.querySelectorAll('.ripple-button').forEach(button => {
+                    button.addEventListener('click', function (e) {
+                        const ripple = document.createElement('span');
+                        const diameter = Math.max(this.clientWidth, this.clientHeight);
+                        const radius = diameter / 2;
+
+                        ripple.style.width = ripple.style.height = `${diameter}px`;
+                        ripple.style.left = `${e.clientX - this.offsetLeft - radius}px`;
+                        ripple.style.top = `${e.clientY - this.offsetTop - radius}px`;
+                        ripple.classList.add('ripple');
+
+                        this.appendChild(ripple);
+
+                        ripple.addEventListener('animationend', () => {
+                            ripple.remove();
+                        });
+                    });
+                });
+
+                // Discount Message Logic
+                const discountMessage = document.getElementById('discountMessage');
+                const closeDiscountButton = document.getElementById('closeDiscount');
+
+                // Check if the message has been dismissed before
+                const isDismissed = localStorage.getItem('skillsync_discount_dismissed');
+
+                if (!isDismissed) {
+                    setTimeout(() => {
+                        discountMessage.classList.remove('hidden');
+                        discountMessage.classList.add('discount-message-enter');
+                    }, 2000); // Show after 2 seconds
+                }
+
+                closeDiscountButton.addEventListener('click', () => {
+                    discountMessage.classList.remove('discount-message-enter');
+                    discountMessage.classList.add('discount-message-exit');
+                    discountMessage.addEventListener('animationend', () => {
+                        discountMessage.classList.add('hidden');
+                        discountMessage.classList.remove('discount-message-exit');
+                        // Store in local storage that the message has been dismissed
+                        localStorage.setItem('skillsync_discount_dismissed', 'true');
+                    }, { once: true });
+                });
+
+                // Chatbot functionality
+                const chatbotToggle = document.getElementById('chatbot-toggle');
+                const chatbotWindow = document.getElementById('chatbot-window');
+                const chatbotClose = document.querySelector('.chatbot-close');
+                const chatbotMessages = document.getElementById('chatbot-messages');
+                const chatbotInput = document.getElementById('chatbot-input');
+                const chatbotSend = document.getElementById('chatbot-send');
+                
+                let isChatbotOpen = false;
+                
+                // Toggle chatbot window
+                chatbotToggle.addEventListener('click', function() {
+                    isChatbotOpen = !isChatbotOpen;
+                    if (isChatbotOpen) {
+                        chatbotWindow.classList.add('open');
+                        chatbotToggle.classList.remove('pulse-notification');
+                    } else {
+                        chatbotWindow.classList.remove('open');
+                    }
+                });
+                
+                // Close chatbot
+                chatbotClose.addEventListener('click', function() {
+                    isChatbotOpen = false;
+                    chatbotWindow.classList.remove('open');
+                });
+                
+                // Send message
+                function sendMessage() {
+                    const messageText = chatbotInput.value.trim();
+                    if (messageText) {
+                        // Add user message
+                        addMessage(messageText, 'user');
+                        chatbotInput.value = '';
+                        
+                        // Show typing indicator
+                        showTypingIndicator();
+                        
+                        // Simulate bot response after a delay
+                        setTimeout(() => {
+                            removeTypingIndicator();
+                            const botResponse = getBotResponse(messageText);
+                            addMessage(botResponse, 'bot');
+                            
+                            // Scroll to bottom
+                            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                        }, 1500);
+                    }
+                }
+                
+                // Send message on button click
+                chatbotSend.addEventListener('click', sendMessage);
+                
+                // Send message on Enter key
+                chatbotInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        sendMessage();
+                    }
+                });
+                
+                // Add message to chat
+                function addMessage(text, sender) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.classList.add('message', sender + '-message');
+                    messageDiv.textContent = text;
+                    chatbotMessages.appendChild(messageDiv);
+                    
+                    // Scroll to bottom
+                    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                }
+                
+                // Show typing indicator
+                function showTypingIndicator() {
+                    const typingDiv = document.createElement('div');
+                    typingDiv.classList.add('typing-indicator');
+                    typingDiv.id = 'typing-indicator';
+                    typingDiv.innerHTML = `
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    `;
+                    chatbotMessages.appendChild(typingDiv);
+                    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                }
+                
+                // Remove typing indicator
+                function removeTypingIndicator() {
+                    const typingIndicator = document.getElementById('typing-indicator');
+                    if (typingIndicator) {
+                        typingIndicator.remove();
+                    }
+                }
+                
+                // Simple bot responses
+                function getBotResponse(userMessage) {
+                    const lowerMessage = userMessage.toLowerCase();
+                    
+                    if (lowerMessage.includes('hi') || lowerMessage.includes('hello') || lowerMessage.includes('hey')) {
+                        return "Hello there! How can I assist you with Skillsync today?";
+                    } else if (lowerMessage.includes('pricing') || lowerMessage.includes('cost')) {
+                        return "We offer flexible pricing plans based on your needs. Would you like me to direct you to our pricing page?";
+                    } else if (lowerMessage.includes('feature') || lowerMessage.includes('what can you do')) {
+                        return "Skillsync offers AI-powered assessments, proctoring, detailed analytics, and integration with HR tools. Is there a specific feature you'd like to know more about?";
+                    } else if (lowerMessage.includes('demo') || lowerMessage.includes('try')) {
+                        return "You can start a free 14-day trial with no credit card required. Would you like me to guide you through the signup process?";
+                    } else if (lowerMessage.includes('contact') || lowerMessage.includes('support')) {
+                        return "Our support team is available 24/7. You can reach us at support@skillsync.com or through the contact page on our website.";
+                    } else if (lowerMessage.includes('thank')) {
+                        return "You're welcome! Is there anything else I can help you with?";
+                    } else {
+                        const responses = [
+                            "I'm not sure I understand. Could you rephrase that?",
+                            "That's an interesting question. Let me connect you with our support team for more details.",
+                            "I can help with general questions about Skillsync. For specific inquiries, our support team would be happy to assist you.",
+                            "Would you like me to provide more information about our assessment platform?",
+                            "I'm still learning! Can you ask me something about Skillsync's features or pricing?"
+                        ];
+                        return responses[Math.floor(Math.random() * responses.length)];
+                    }
+                }
+                
+                // Auto-open chatbot after 30 seconds if not interacted with
+                setTimeout(() => {
+                    if (!localStorage.getItem('chatbotShown')) {
+                        isChatbotOpen = true;
+                        chatbotWindow.classList.add('open');
+                        localStorage.setItem('chatbotShown', 'true');
+                    }
+                }, 30000);
+            });
+        </script>
+    </body>
+</html>
